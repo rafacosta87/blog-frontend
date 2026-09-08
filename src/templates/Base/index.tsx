@@ -6,6 +6,7 @@ import { Header } from '../../components/Header';
 import { Menu } from '../../components/Menu';
 import { ToggleTheme } from '../../components/ToggleTheme';
 import { SettingsStrapi } from '../../shared-types/settings-strapi';
+import { PostStrapi } from '../../shared-types/post-strapi';
 import * as Styled from './styles';
 
 import { Cancel } from '@styled-icons/material-outlined/Cancel';
@@ -13,10 +14,15 @@ import { CheckCircleOutline } from '@styled-icons/material-outlined/CheckCircleO
 
 export type BaseTemplateProps = {
   settings: SettingsStrapi;
+  posts?: PostStrapi[];
   children: React.ReactNode;
 };
 
-export const BaseTemplate = ({ settings, children }: BaseTemplateProps) => {
+export const BaseTemplate = ({
+  settings,
+  posts = [],
+  children,
+}: BaseTemplateProps) => {
   const router = useRouter();
   const [searchValue, setSearchValue] = useState(router?.query?.q || '');
   const [searchDisabled, setSearchDisabled] = useState(true);
@@ -63,11 +69,7 @@ export const BaseTemplate = ({ settings, children }: BaseTemplateProps) => {
       {settings.logo.map((el) => {
         return (
           <span key={el.id}>
-            <Menu
-              links={settings.menuLink}
-              blogName={settings.blogName}
-              logo={el.url}
-            />
+            <Menu blogName={settings.blogName} logo={el.url} posts={posts} />
           </span>
         );
       })}

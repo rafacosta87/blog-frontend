@@ -4,21 +4,15 @@ import React, { useState } from 'react';
 import { LogoLink } from '../LogoLink';
 import { MenuLink } from '../MenuLink';
 import * as Styled from './styles';
-
-export type MenuPropsLinks = {
-  id: string;
-  link: string;
-  newTab?: boolean;
-  text: string;
-};
+import { PostStrapi } from '../../shared-types/post-strapi';
 
 export type MenuProps = {
-  links: MenuPropsLinks[];
   blogName: string;
   logo: string;
+  posts?: PostStrapi[];
 };
 
-export const Menu = ({ links = [], blogName, logo }: MenuProps) => {
+export const Menu = ({ blogName, logo, posts = [] }: MenuProps) => {
   const [menuVisible, setMenuVisible] = useState(false);
 
   const handleOpenCloseMenu = (event: React.MouseEvent) => {
@@ -45,9 +39,9 @@ export const Menu = ({ links = [], blogName, logo }: MenuProps) => {
             <LogoLink link="/" text={blogName} srcImg={logo} />
           </Styled.Logo>
 
-          {links.map((link) => (
-            <MenuLink key={link.id} link={link.link} newTab={link.newTab}>
-              {link.text}
+          {posts.map((post) => (
+            <MenuLink key={post.id} link={`/post/${post.slug}`}>
+              {post.title}
             </MenuLink>
           ))}
         </Styled.Nav>

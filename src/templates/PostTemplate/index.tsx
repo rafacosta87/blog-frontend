@@ -9,11 +9,19 @@ import { Comments } from '../../components/Comments';
 export type PostTemplateProps = {
   settings: SettingsStrapi;
   post: PostStrapi;
+  allPosts?: PostStrapi[];
 };
 
-export const PostTemplate = ({ settings, post }: PostTemplateProps) => {
+export const PostTemplate = ({
+  settings,
+  post,
+  allPosts = [],
+}: PostTemplateProps) => {
   return (
-    <BaseTemplate settings={settings}>
+    <BaseTemplate
+      settings={settings}
+      posts={allPosts.length ? allPosts : [post]}
+    >
       <Post {...post} />
 
       <Styled.TagsContainer>

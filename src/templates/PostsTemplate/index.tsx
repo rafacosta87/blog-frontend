@@ -51,7 +51,7 @@ export const PostsTemplate = ({
   };
 
   return (
-    <BaseTemplate settings={settings}>
+    <BaseTemplate settings={settings} posts={statePosts}>
       <PostGrid posts={statePosts} />
 
       {statePosts && statePosts.length ? (

@@ -238,3 +238,4 @@ export const loadPosts = async (
     variables: mergedVariables,
   };
 };
+
