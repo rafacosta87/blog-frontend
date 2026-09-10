@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Footer } from '../../components/Footer';
 import { GoTop } from '../../components/GoTop';
 import { Header } from '../../components/Header';
@@ -9,8 +9,7 @@ import { SettingsStrapi } from '../../shared-types/settings-strapi';
 import { PostStrapi } from '../../shared-types/post-strapi';
 import * as Styled from './styles';
 
-import { Cancel } from '@styled-icons/material-outlined/Cancel';
-import { CheckCircleOutline } from '@styled-icons/material-outlined/CheckCircleOutline';
+import { Search } from '@styled-icons/material-outlined/Search';
 
 export type BaseTemplateProps = {
   settings: SettingsStrapi;
@@ -25,43 +24,37 @@ export const BaseTemplate = ({
 }: BaseTemplateProps) => {
   const router = useRouter();
   const [searchValue, setSearchValue] = useState(router?.query?.q || '');
-  const [searchDisabled, setSearchDisabled] = useState(true);
-  const [isReady, setIsReady] = useState(true);
-  const inputTimeout = useRef(null);
+  const [searchDisabled, setSearchDisabled] = useState(false);
 
   useEffect(() => {
-    if (isReady) {
-      setSearchDisabled(false);
-    } else {
-      setSearchDisabled(true);
+    if (router?.query?.q) {
+      setSearchValue(router.query.q as string);
     }
-  }, [isReady]);
+  }, [router?.query?.q]);
 
-  useEffect(() => {
-    clearTimeout(inputTimeout.current);
+  const handleSearch = () => {
+    const q = (searchValue as string).trim();
+    if (!q) return;
 
-    if (router?.query?.q === searchValue) {
-      return;
+    setSearchDisabled(true);
+    router
+      .push({
+        pathname: '/search/',
+        query: { q },
+      })
+      .then(() => setSearchDisabled(false));
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      handleSearch();
     }
-
-    const q = searchValue;
-
-    if (!q || q.length < 7) {
-      return;
+    if (e.key === 'Escape') {
+      setSearchValue('');
+      router.push('/');
     }
-
-    inputTimeout.current = setTimeout(() => {
-      setIsReady(false);
-      router
-        .push({
-          pathname: '/search/',
-          query: { q: searchValue },
-        })
-        .then(() => setIsReady(true));
-    }, 600);
-
-    return () => clearTimeout(inputTimeout.current);
-  }, [searchValue, router]);
+  };
 
   return (
     <Styled.Wrapper>
@@ -89,26 +82,25 @@ export const BaseTemplate = ({
       </Styled.HeaderContainer>
 
       <Styled.SearchContainer>
-        <Styled.SearchInput
-          type="search"
-          placeholder="Encontre posts"
-          name="q"
-          value={searchValue}
-          onChange={(e) => setSearchValue(e.target.value)}
-          disabled={searchDisabled}
-        />
-        {searchDisabled ? (
-          <Cancel className="search-cancel-icon" aria-label="Input Disabled" />
-        ) : (
-          <CheckCircleOutline
-            className="search-ok-icon"
-            aria-label="Input enabled"
+        <Styled.SearchInputWrapper>
+          <Styled.SearchInput
+            type="search"
+            placeholder="Encontre posts"
+            name="q"
+            value={searchValue}
+            onChange={(e) => setSearchValue(e.target.value)}
+            onKeyDown={handleKeyDown}
+            disabled={searchDisabled}
           />
-        )}
+          <Search
+            className="search-ok-icon"
+            aria-label="Pesquisar"
+            onClick={handleSearch}
+          />
+        </Styled.SearchInputWrapper>
       </Styled.SearchContainer>
 
       <Styled.ContentContainer>{children}</Styled.ContentContainer>
-
       <Styled.FooterContainer>
         <Footer footerHtml={settings.text} />
       </Styled.FooterContainer>

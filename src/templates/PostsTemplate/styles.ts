@@ -9,7 +9,9 @@ export const ButtonContainer = styled.div`
   `}
 `;
 
-export const Button = styled.button`
+export const Button = styled.button<
+  React.ButtonHTMLAttributes<HTMLButtonElement>
+>`
   ${({ theme }) => css`
     background: ${theme.colors.primary};
     color: ${theme.colors.white};

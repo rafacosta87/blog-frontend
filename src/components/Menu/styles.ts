@@ -3,8 +3,7 @@ import { Title as HeadingStyles } from '../Heading/styles';
 
 type MenuBehaviorProps = {
   menuVisible: boolean;
-};
-
+} & React.AnchorHTMLAttributes<HTMLAnchorElement>;
 const wrapperChanger = (
   menuVisible: MenuBehaviorProps['menuVisible'],
   theme: DefaultTheme,
@@ -22,6 +21,7 @@ export const Wrapper = styled.div<MenuBehaviorProps>`
     background: ${theme.colors.primary};
     padding: ${theme.spacings.large};
     display: flex;
+    align-items: flex-start;
     position: fixed;
     z-index: 1;
     width: 100%;
@@ -36,7 +36,8 @@ export const Wrapper = styled.div<MenuBehaviorProps>`
 `;
 
 export const Nav = styled.nav`
-  margin: auto;
+  margin: 0;
+  padding-top: ${({ theme }) => theme.spacings.medium};
   width: 100%;
 `;
 
@@ -46,7 +47,7 @@ export const Logo = styled.div`
       display: flex;
       justify-content: center;
       margin: 0;
-      margin-bottom: ${theme.spacings.xxlarge};
+      margin-bottom: ${theme.spacings.medium};
 
       img {
         border: 0.5rem solid ${theme.colors.secondary};

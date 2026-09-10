@@ -1,17 +1,17 @@
+//depois perguntar referente a largura de  de SerchContainer 120 e SearchInputContainer 25, perguntar também pq border radius é passado para SeachInput ao invés de SearchContainer
 import styled, { css } from 'styled-components';
 
 export const Wrapper = styled.div`
-  svg.search-ok-icon,
-  svg.search-cancel-icon {
+  svg.search-ok-icon {
     width: 2.4rem;
     height: 2.4rem;
-    margin-left: 1rem;
-  }
-
-  svg.search-cancel-icon {
-    ${({ theme }) => css`
-      color: ${theme.colors.secondary};
-    `}
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    transition: all 200ms ease-in-out;
+    color: gray;
   }
 `;
 
@@ -35,9 +35,28 @@ export const SearchContainer = styled.div`
   `}
 `;
 
-export const SearchInput = styled.input`
+export const SearchInputWrapper = styled.div`
+  position: relative;
+  display: flex;
+  align-items: center;
+  max-width: 25rem;
+  width: 100%;
+`;
+
+export const SearchInput = styled.input<
+  React.InputHTMLAttributes<HTMLInputElement>
+>`
   ${({ theme }) => css`
-    padding: 0.5rem ${theme.spacings.small};
+    padding: 0.8rem 4rem 0.8rem ${theme.spacings.small};
+    width: 100%;
+    border: 0.1rem solid ${theme.colors.mediumGray};
+    border-radius: 0.8rem;
+    outline: none;
+    transition: all 200ms ease-in-out;
+
+    &:focus {
+      border-color: ${theme.colors.primary};
+    }
 
     &:disabled {
       outline: 0.1rem solid ${theme.colors.secondary};

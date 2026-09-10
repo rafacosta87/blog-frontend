@@ -7,11 +7,10 @@ export const Container = styled.a`
     text-decoration: none;
     margin-bottom: ${theme.spacings.small};
     font-size: 1.8rem;
-    border-right: 0.5rem solid ${theme.colors.primary};
+    font-weight: 600;
     transition: all 300ms ease-in-out;
 
     &:hover {
-      border-right: 0.5rem solid ${theme.colors.secondary};
       color: ${theme.colors.secondary};
     }
   `}
