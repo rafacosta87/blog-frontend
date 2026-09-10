@@ -8,12 +8,18 @@ import {
   StrapiPostAndSettings,
 } from '../../api/load-posts';
 import { PostsTemplate } from '../../templates/PostsTemplate';
+import { PostStrapi } from '../../shared-types/post-strapi';
+
+type SearchPageProps = StrapiPostAndSettings & {
+  allPosts: PostStrapi[];
+};
 
 export default function CategoryPage({
   posts,
   setting,
   variables,
-}: StrapiPostAndSettings) {
+  allPosts,
+}: SearchPageProps) {
   const router = useRouter();
 
   if (router.isFallback) {
@@ -31,7 +37,7 @@ export default function CategoryPage({
           Category: {categoryName} - {setting.blogName}
         </title>
       </Head>
-      <PostsTemplate posts={posts} settings={setting} variables={variables} />
+      <PostsTemplate posts={posts} settings={setting} variables={variables} allPosts={allPosts || posts} />
     </>
   );
 }
@@ -48,11 +54,13 @@ export const getStaticProps: GetStaticProps<StrapiPostAndSettings> = async (
 
 ) => {
   let data = null;
+  let allPostsData = null;
   const variables = { categorySlug: ctx.params.slug as string };
 
 
   try {
     data = await loadPosts(variables);
+     allPostsData = await loadPosts();
   } catch (e) {
     data = null;
   }
@@ -67,6 +75,7 @@ export const getStaticProps: GetStaticProps<StrapiPostAndSettings> = async (
     props: {
       posts: data.posts,
       setting: data.setting,
+      allPosts: allPostsData?.posts || data.posts,
       variables: {
         ...defaultLoadPostsVariables,
         ...variables,

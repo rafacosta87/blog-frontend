@@ -9,12 +9,14 @@ import { loadPosts, LoadPostsVariables } from '../../api/load-posts';
 export type PostsTemplateProps = {
   settings: SettingsStrapi;
   posts?: PostStrapi[];
+  allPosts?: PostStrapi[];
   variables?: LoadPostsVariables;
 };
 
 export const PostsTemplate = ({
   settings,
   posts = [],
+  allPosts = [],
   variables,
 }: PostsTemplateProps) => {
   const [statePosts, setStatePosts] = useState(posts);
@@ -51,7 +53,10 @@ export const PostsTemplate = ({
   };
 
   return (
-    <BaseTemplate settings={settings} posts={statePosts}>
+    <BaseTemplate
+      settings={settings}
+      posts={allPosts.length ? allPosts : statePosts}
+    >
       <PostGrid posts={statePosts} />
 
       {statePosts && statePosts.length ? (

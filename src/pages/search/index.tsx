@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import Head from 'next/head';
 import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/dist/client/router';
@@ -8,12 +7,19 @@ import {
   StrapiPostAndSettings,
 } from '../../api/load-posts';
 import { PostsTemplate } from '../../templates/PostsTemplate';
+import { PostStrapi } from '../../shared-types/post-strapi';
+
+type SearchPageProps = StrapiPostAndSettings & {
+  allPosts: PostStrapi[];
+};
 
 export default function SearchPage({
   posts,
   setting,
   variables,
-}: StrapiPostAndSettings) {
+
+  allPosts,
+}: SearchPageProps) {
   const router = useRouter();
 
   return (
@@ -23,15 +29,20 @@ export default function SearchPage({
           Pesquisa: {router.query.q} - {setting.blogName}
         </title>
       </Head>
-      <PostsTemplate posts={posts} settings={setting} variables={variables} />
+
+      <PostsTemplate
+        posts={posts}
+        settings={setting}
+        variables={variables}
+        allPosts={allPosts || posts}
+      />
     </>
   );
 }
 
-export const getServerSideProps: GetServerSideProps<StrapiPostAndSettings> = async (
-  ctx,
-) => {
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
   let data = null;
+  let allPostsData = null;
   const query = ctx.query.q || '';
 
   if (!query) {
@@ -43,7 +54,10 @@ export const getServerSideProps: GetServerSideProps<StrapiPostAndSettings> = asy
   const variables = { postSearch: query as string };
 
   try {
+    // 1. Fetch filtered posts for the search page
     data = await loadPosts(variables);
+    // 2. Fetch all posts for the sidebar menu
+    allPostsData = await loadPosts();
   } catch (e) {
     data = null;
   }
@@ -58,6 +72,7 @@ export const getServerSideProps: GetServerSideProps<StrapiPostAndSettings> = asy
     props: {
       posts: data.posts,
       setting: data.setting,
+      allPosts: allPostsData?.posts || data.posts,
       variables: {
         ...defaultLoadPostsVariables,
         ...variables,

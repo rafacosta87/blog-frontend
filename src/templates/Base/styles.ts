@@ -2,6 +2,10 @@
 import styled, { css } from 'styled-components';
 
 export const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+
   svg.search-ok-icon {
     width: 2.4rem;
     height: 2.4rem;
@@ -70,6 +74,7 @@ export const ContentContainer = styled.div`
     width: 100%;
     margin: 0 auto;
     margin-bottom: ${theme.spacings.large};
+    flex: 1;
   `}
 `;
 

@@ -4,6 +4,7 @@ import { Title as HeadingStyles } from '../Heading/styles';
 export const Wrapper = styled.header`
   ${({ theme }) => css`
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     padding-bottom: ${theme.spacings.xhuge};
@@ -18,7 +19,6 @@ export const Wrapper = styled.header`
     }
 
     @media ${theme.media.lteSmall} {
-      display: flex;
       flex-flow: column wrap;
 
       & > ${HeadingStyles} {
@@ -32,11 +32,11 @@ export const Content = styled.div`
   ${({ theme }) => css`
     display: flex;
     flex-flow: column wrap;
-    margin-left: ${theme.spacings.large};
+    text-align: center;
     max-width: 48rem;
 
     @media ${theme.media.lteSmall} {
-      margin-left: 0;
+      margin-top: ${theme.spacings.small};
     }
   `}
 `;

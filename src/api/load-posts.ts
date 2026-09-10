@@ -135,6 +135,16 @@ const formatContent = (content: any): string => {
 const formatPost = (rawPost: any): PostStrapi => {
   const formattedContent = formatContent(rawPost.content);
 
+  const authorName =
+    rawPost.author?.name || rawPost.author?.displayName || 'Author';
+  // Gera um slug amigável a partir do nome do autor (ex: "Otávio Miranda" -> "otavio-miranda")
+  const authorSlug =
+    rawPost.author?.slug ||
+    authorName
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-*|-*$/g, '');
+
   return {
     id: String(rawPost.id),
     title: rawPost.title || '',
@@ -147,24 +157,23 @@ const formatPost = (rawPost: any): PostStrapi => {
     categories: (rawPost.categories || []).map((cat: any) => ({
       id: String(cat.id),
       displayName: cat.name || cat.displayName || '',
-      slug: cat.slug || '',
+      slug:
+        cat.slug || (cat.name || '').toLowerCase().replace(/[^a-z0-9]+/g, '-'),
     })),
     tags: (rawPost.tags || []).map((tag: any) => ({
       id: String(tag.id),
       displayName: tag.displayName || tag.name || '',
-      slug: tag.slug || '',
+      slug:
+        tag.slug ||
+        (tag.displayName || tag.name || '')
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, '-'),
     })),
-    author: rawPost.author
-      ? {
-          id: String(rawPost.author.id),
-          displayName: rawPost.author.name || rawPost.author.displayName || '',
-          slug: rawPost.author.slug || 'author',
-        }
-      : {
-          id: '1',
-          displayName: 'Author',
-          slug: 'author',
-        },
+    author: {
+      id: String(rawPost.author?.id || '1'),
+      displayName: authorName,
+      slug: authorSlug,
+    },
   };
 };
 

@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import Head from 'next/head';
 import { GetStaticPaths, GetStaticProps } from 'next';
 import { useRouter } from 'next/dist/client/router';
@@ -8,26 +7,39 @@ import {
   StrapiPostAndSettings,
 } from '../../api/load-posts';
 import { PostsTemplate } from '../../templates/PostsTemplate';
+import { PostStrapi } from '../../shared-types/post-strapi';
+
+type AuthorPageProps = StrapiPostAndSettings & {
+  allPosts: PostStrapi[];
+};
 
 export default function AuthorPage({
-  posts,
+  posts = [],
   setting,
   variables,
-}: StrapiPostAndSettings) {
+  allPosts = [],
+}: AuthorPageProps) {
   const router = useRouter();
 
   if (router.isFallback) {
     return <h1>Loading...</h1>;
   }
-  console.log(posts)
+
+  const authorName = posts[0]?.author?.displayName || 'Autor';
+
   return (
     <>
       <Head>
         <title>
-          Author: {posts[0].author.displayName} - {setting.blogName}
+          Author: {authorName} - {setting?.blogName || 'Blog'}
         </title>
       </Head>
-      <PostsTemplate posts={posts} settings={setting} variables={variables} />
+      <PostsTemplate
+        posts={posts}
+        settings={setting}
+        variables={variables}
+        allPosts={allPosts.length ? allPosts : posts}
+      />
     </>
   );
 }
@@ -39,19 +51,21 @@ export const getStaticPaths: GetStaticPaths = async () => {
   };
 };
 
-export const getStaticProps: GetStaticProps<StrapiPostAndSettings> = async (
-  ctx,
-) => {
+export const getStaticProps: GetStaticProps = async (ctx) => {
   let data = null;
-  const variables = { authorSlug: ctx.params.slug as string };
+  let allPostsData = null;
+  const authorSlug = ctx.params?.slug as string;
+  const variables = { authorSlug };
 
   try {
     data = await loadPosts(variables);
+    allPostsData = await loadPosts();
   } catch (e) {
     data = null;
   }
 
-  if (!data || !data.posts || !data.posts.length) {
+  // Se não encontrar configurações, aí sim podemos retornar 404
+  if (!data || !data.setting) {
     return {
       notFound: true,
     };
@@ -59,8 +73,9 @@ export const getStaticProps: GetStaticProps<StrapiPostAndSettings> = async (
 
   return {
     props: {
-      posts: data.posts,
+      posts: data.posts || [],
       setting: data.setting,
+      allPosts: allPostsData?.posts || [],
       variables: {
         ...defaultLoadPostsVariables,
         ...variables,
