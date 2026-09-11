@@ -19,7 +19,7 @@ const wrapperChanger = (
 export const Wrapper = styled.div<MenuBehaviorProps>`
   ${({ theme, menuVisible }) => css`
     background: ${theme.colors.primary};
-    padding: ${theme.spacings.large};
+    padding: 1rem;
     display: flex;
     align-items: flex-start;
     position: fixed;
@@ -60,18 +60,18 @@ const buttonChanger = (
   menuVisible: MenuBehaviorProps['menuVisible'],
   theme: DefaultTheme,
 ) => css`
-  left: ${menuVisible ? '26rem' : '1rem'};
+  left: ${menuVisible ? '28rem' : '1rem'};
   color: ${menuVisible ? theme.colors.secondary : theme.colors.white};
 
   @media ${theme.media.lteMedium} {
-    left: ${menuVisible ? '26rem' : '-0.5rem'};
+    left: ${menuVisible ? '28rem' : '-0.5rem'};
   }
 `;
 
 export const OpenClose = styled.a<MenuBehaviorProps>`
   ${({ theme, menuVisible }) => css`
     position: fixed;
-    top: ${theme.spacings.medium};
+    top: 1rem;
     color: ${theme.colors.white};
     background: ${theme.colors.primary};
     z-index: 2;
