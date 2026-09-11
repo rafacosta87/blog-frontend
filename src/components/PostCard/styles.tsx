@@ -34,7 +34,7 @@ export const Cover = styled.img`
   height: 20rem;
   object-fit: cover;
   transition: opacity 300ms ease-in-out;
-  border-radius: 0.8rem;
+  border-radius: 0.5rem;
 `;
 
 export const Excerpt = styled.p`

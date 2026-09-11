@@ -54,7 +54,7 @@ export const SearchInput = styled.input<
     padding: 0.8rem 4rem 0.8rem ${theme.spacings.small};
     width: 100%;
     border: 0.1rem solid ${theme.colors.mediumGray};
-    border-radius: 0.8rem;
+    border-radius: 0.5rem;
     outline: none;
     transition: all 200ms ease-in-out;
 
