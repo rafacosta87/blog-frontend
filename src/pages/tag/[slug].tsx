@@ -9,38 +9,38 @@ import {
 import { PostsTemplate } from '../../templates/PostsTemplate';
 import { PostStrapi } from '../../shared-types/post-strapi';
 
-type SearchPageProps = StrapiPostAndSettings & {
+type TagPageProps = StrapiPostAndSettings & {
   allPosts: PostStrapi[];
 };
 
 export default function TagPage({
-  posts,
+  posts = [],
   setting,
   variables,
-  allPosts,
-}: SearchPageProps) {
+  allPosts = [],
+}: TagPageProps) {
   const router = useRouter();
 
   if (router.isFallback) {
     return <h1>Loading...</h1>;
   }
 
-  const tagName = posts[0].tags.filter(
-    (tag) => tag.slug === router.query.slug,
-  )[0].displayName;
+  const tagName =
+    posts[0]?.tags?.find((tag) => tag.slug === router.query.slug)
+      ?.displayName || 'Tag';
 
   return (
     <>
       <Head>
         <title>
-          Tag: {tagName} - {setting.blogName}
+          Tag: {tagName} - {setting?.blogName || 'Blog'}
         </title>
       </Head>
       <PostsTemplate
         posts={posts}
         settings={setting}
         variables={variables}
-        allPosts={allPosts || posts}
+        allPosts={allPosts.length ? allPosts : posts}
       />
     </>
   );
@@ -53,12 +53,11 @@ export const getStaticPaths: GetStaticPaths = async () => {
   };
 };
 
-export const getStaticProps: GetStaticProps<StrapiPostAndSettings> = async (
-  ctx,
-) => {
+export const getStaticProps: GetStaticProps = async (ctx) => {
   let data = null;
   let allPostsData = null;
-  const variables = { tagSlug: ctx.params.slug as string };
+  const tagSlug = ctx.params?.slug as string;
+  const variables = { tagSlug };
 
   try {
     data = await loadPosts(variables);
@@ -67,7 +66,7 @@ export const getStaticProps: GetStaticProps<StrapiPostAndSettings> = async (
     data = null;
   }
 
-  if (!data || !data.posts || !data.posts.length) {
+  if (!data || !data.setting) {
     return {
       notFound: true,
     };
@@ -75,9 +74,9 @@ export const getStaticProps: GetStaticProps<StrapiPostAndSettings> = async (
 
   return {
     props: {
-      posts: data.posts,
+      posts: data.posts || [],
       setting: data.setting,
-      allPosts: allPostsData?.posts || data.posts,
+      allPosts: allPostsData?.posts || [],
       variables: {
         ...defaultLoadPostsVariables,
         ...variables,

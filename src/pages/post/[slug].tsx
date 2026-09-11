@@ -1,15 +1,17 @@
+/* eslint-disable prettier/prettier */
 import Head from 'next/head';
 import { GetStaticPaths, GetStaticProps } from 'next';
 import { useRouter } from 'next/dist/client/router';
 import { loadPosts, StrapiPostAndSettings } from '../../api/load-posts';
 import { PostTemplate } from '../../templates/PostTemplate';
+import { PostsTemplate } from '../../templates/PostsTemplate';
 import { PostStrapi } from '../../shared-types/post-strapi';
 
 type PostPageProps = StrapiPostAndSettings & {
   allPosts: PostStrapi[];
 };
 
-export default function PostPage({ posts, setting, allPosts }: PostPageProps) {
+export default function PostPage({ posts = [], setting, allPosts = [] }: PostPageProps) {
   const router = useRouter();
 
   if (router.isFallback) {
@@ -18,19 +20,26 @@ export default function PostPage({ posts, setting, allPosts }: PostPageProps) {
 
   const post = posts[0];
 
+  // Se não encontrar o post especificamente, usa o PostsTemplate com array vazio para reutilizar a mesma mensagem padronizada
+  if (!post) {
+    return (
+      <PostsTemplate
+        posts={[]}
+        settings={setting}
+        allPosts={allPosts}
+      />
+    );
+  }
+
   return (
     <>
       <Head>
         <title>
-          {post.title} - {setting.blogName}
+          {post.title} - {setting?.blogName || 'Blog'}
         </title>
         <meta name="description" content={post.excerpt} />
       </Head>
-      <PostTemplate
-        post={post}
-        settings={setting}
-        allPosts={allPosts || posts}
-      />
+      <PostTemplate post={post} settings={setting} allPosts={allPosts || posts} />
     </>
   );
 }
@@ -56,20 +65,20 @@ export const getStaticPaths: GetStaticPaths = async () => {
   };
 };
 
-export const getStaticProps: GetStaticProps = async (ctx) => {
+export const getStaticProps: GetStaticProps = async (
+  ctx,
+) => {
   let data = null;
   let allPostsData = null;
 
   try {
-    // 1. Fetch current post details and settings
-    data = await loadPosts({ postSlug: ctx.params.slug as string });
-    // 2. Fetch all posts listing for the sidebar menu
+    data = await loadPosts({ postSlug: ctx.params?.slug as string });
     allPostsData = await loadPosts();
   } catch (e) {
     data = null;
   }
 
-  if (!data || !data.posts || !data.posts.length) {
+  if (!data || !data.setting) {
     return {
       notFound: true,
     };
@@ -77,9 +86,9 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
 
   return {
     props: {
-      posts: data.posts,
+      posts: data.posts || [],
       setting: data.setting,
-      allPosts: allPostsData?.posts || data.posts,
+      allPosts: allPostsData?.posts || [],
     },
     revalidate: 60,
   };
