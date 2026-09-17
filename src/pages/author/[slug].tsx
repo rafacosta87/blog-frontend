@@ -8,6 +8,7 @@ import {
 } from '../../api/load-posts';
 import { PostsTemplate } from '../../templates/PostsTemplate';
 import { PostStrapi } from '../../shared-types/post-strapi';
+import { Loading } from '../../components/Loading';
 
 type AuthorPageProps = StrapiPostAndSettings & {
   allPosts: PostStrapi[];
@@ -22,7 +23,7 @@ export default function AuthorPage({
   const router = useRouter();
 
   if (router.isFallback) {
-    return <h1>Loading...</h1>;
+    return <Loading />;
   }
 
   const authorName = posts[0]?.author?.displayName || 'Autor';

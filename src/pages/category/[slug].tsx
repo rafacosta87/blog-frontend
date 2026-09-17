@@ -8,6 +8,7 @@ import {
 } from '../../api/load-posts';
 import { PostsTemplate } from '../../templates/PostsTemplate';
 import { PostStrapi } from '../../shared-types/post-strapi';
+import { Loading } from '../../components/Loading';
 
 type CategoryPageProps = StrapiPostAndSettings & {
   allPosts: PostStrapi[];
@@ -22,7 +23,7 @@ export default function CategoryPage({
   const router = useRouter();
 
   if (router.isFallback) {
-    return <h1>Loading...</h1>;
+    return <Loading />;
   }
 
   const categoryName =

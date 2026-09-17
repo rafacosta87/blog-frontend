@@ -5,6 +5,7 @@ import { SettingsStrapi } from '../../shared-types/settings-strapi';
 import { BaseTemplate } from '../Base';
 import { useEffect, useState } from 'react';
 import { loadPosts, LoadPostsVariables } from '../../api/load-posts';
+import { Autorenew } from '@styled-icons/material-outlined/Autorenew';
 
 export type PostsTemplateProps = {
   settings: SettingsStrapi;
@@ -63,9 +64,18 @@ export const PostsTemplate = ({
         <Styled.ButtonContainer>
           <Styled.Button
             onClick={handleLoadMorePosts}
-            disabled={buttonDisabled}
+            disabled={buttonDisabled || noMorePosts}
           >
-            {noMorePosts ? 'Sem mais posts' : 'Carregar mais'}
+            {buttonDisabled && !noMorePosts ? (
+              <>
+                <Autorenew className="loading-icon" aria-label="Carregando" />
+                Carregando posts...
+              </>
+            ) : noMorePosts ? (
+              'Sem mais posts'
+            ) : (
+              'Carregar mais'
+            )}
           </Styled.Button>
         </Styled.ButtonContainer>
       ) : null}
