@@ -1,21 +1,42 @@
 //depois perguntar referente a largura de  de SerchContainer 120 e SearchInputContainer 25, perguntar também pq border radius é passado para SeachInput ao invés de SearchContainer
-import styled, { css } from 'styled-components';
+import styled, { css, keyframes } from 'styled-components';
+
+const rotate = keyframes`
+  from {
+    transform: translateY(-50%) rotate(0deg);
+  }
+  to {
+    transform: translateY(-50%) rotate(360deg);
+  }
+`;
 
 export const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   min-height: 100vh;
 
-  svg.search-ok-icon {
+  svg.search-ok-icon,
+  svg.search-loading-icon {
     width: 2.4rem;
     height: 2.4rem;
     position: absolute;
     right: 1rem;
     top: 50%;
     transform: translateY(-50%);
-    cursor: pointer;
     transition: all 200ms ease-in-out;
     color: gray;
+  }
+
+  svg.search-ok-icon {
+    cursor: pointer;
+    &:hover {
+      color: ${({ theme }) => theme.colors.secondary};
+    }
+  }
+
+  svg.search-loading-icon {
+    animation: ${rotate} 1s linear infinite;
+    color: ${({ theme }) => theme.colors.primary};
   }
 `;
 

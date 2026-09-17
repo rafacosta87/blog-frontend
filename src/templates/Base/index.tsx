@@ -10,6 +10,7 @@ import { PostStrapi } from '../../shared-types/post-strapi';
 import * as Styled from './styles';
 
 import { Search } from '@styled-icons/material-outlined/Search';
+import { Autorenew } from '@styled-icons/material-outlined/Autorenew';
 
 export type BaseTemplateProps = {
   settings: SettingsStrapi;
@@ -52,7 +53,6 @@ export const BaseTemplate = ({
     }
     if (e.key === 'Escape') {
       setSearchValue('');
-      router.push('/');
     }
   };
 
@@ -92,11 +92,18 @@ export const BaseTemplate = ({
             onKeyDown={handleKeyDown}
             disabled={searchDisabled}
           />
-          <Search
-            className="search-ok-icon"
-            aria-label="Pesquisar"
-            onClick={handleSearch}
-          />
+          {searchDisabled ? (
+            <Autorenew
+              className="search-loading-icon"
+              aria-label="Carregando busca"
+            />
+          ) : (
+            <Search
+              className="search-ok-icon"
+              aria-label="Pesquisar"
+              onClick={handleSearch}
+            />
+          )}
         </Styled.SearchInputWrapper>
       </Styled.SearchContainer>
 

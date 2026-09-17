@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import Head from 'next/head';
 import { GetStaticPaths, GetStaticProps } from 'next';
 import { useRouter } from 'next/dist/client/router';
@@ -11,7 +10,11 @@ type PostPageProps = StrapiPostAndSettings & {
   allPosts: PostStrapi[];
 };
 
-export default function PostPage({ posts = [], setting, allPosts = [] }: PostPageProps) {
+export default function PostPage({
+  posts = [],
+  setting,
+  allPosts = [],
+}: PostPageProps) {
   const router = useRouter();
 
   if (router.isFallback) {
@@ -22,13 +25,7 @@ export default function PostPage({ posts = [], setting, allPosts = [] }: PostPag
 
   // Se não encontrar o post especificamente, usa o PostsTemplate com array vazio para reutilizar a mesma mensagem padronizada
   if (!post) {
-    return (
-      <PostsTemplate
-        posts={[]}
-        settings={setting}
-        allPosts={allPosts}
-      />
-    );
+    return <PostsTemplate posts={[]} settings={setting} allPosts={allPosts} />;
   }
 
   return (
@@ -39,7 +36,11 @@ export default function PostPage({ posts = [], setting, allPosts = [] }: PostPag
         </title>
         <meta name="description" content={post.excerpt} />
       </Head>
-      <PostTemplate post={post} settings={setting} allPosts={allPosts || posts} />
+      <PostTemplate
+        post={post}
+        settings={setting}
+        allPosts={allPosts || posts}
+      />
     </>
   );
 }
@@ -65,9 +66,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   };
 };
 
-export const getStaticProps: GetStaticProps = async (
-  ctx,
-) => {
+export const getStaticProps: GetStaticProps = async (ctx) => {
   let data = null;
   let allPostsData = null;
 
