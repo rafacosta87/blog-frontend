@@ -221,6 +221,10 @@ export const loadPosts = async (
     if (categorySlug) query.append('category', categorySlug);
     if (authorSlug) query.append('author', authorSlug);
     if (tagSlug) query.append('tag', tagSlug);
+    if (mergedVariables.start !== undefined)
+      query.append('start', String(mergedVariables.start));
+    if (mergedVariables.limit !== undefined)
+      query.append('limit', String(mergedVariables.limit));
 
     try {
       const rawPosts = await fetchJson(`/posts?${query.toString()}`);

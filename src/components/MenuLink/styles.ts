@@ -16,7 +16,7 @@ export const Container = styled.a<
     font-weight: 600;
 
     /* Arredonda levemente os cantos do fundo cinza no hover */
-    border-radius: 0.6rem;
+    border-radius: 0.5rem;
 
     transition: all 200ms ease-in-out;
 

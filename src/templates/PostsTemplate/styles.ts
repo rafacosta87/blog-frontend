@@ -32,6 +32,7 @@ export const Button = styled.button<
     justify-content: center;
     gap: 0.8rem;
     font-size: 1.6rem;
+    font-weight: 700;
     border-radius: 0.5rem;
     transition: all 200ms ease-in-out;
 

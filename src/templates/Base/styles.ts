@@ -29,9 +29,6 @@ export const Wrapper = styled.div`
 
   svg.search-ok-icon {
     cursor: pointer;
-    &:hover {
-      color: ${({ theme }) => theme.colors.secondary};
-    }
   }
 
   svg.search-loading-icon {
@@ -80,7 +77,7 @@ export const SearchInput = styled.input<
     transition: all 200ms ease-in-out;
 
     &:focus {
-      border-color: ${theme.colors.primary};
+      border: 0.1rem solid ${theme.colors.primary};
     }
 
     &:disabled {

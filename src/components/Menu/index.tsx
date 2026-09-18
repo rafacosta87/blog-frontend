@@ -1,6 +1,6 @@
 import { Menu as MenuIcon } from '@styled-icons/material-outlined/Menu';
-import { Close as CloseIcon } from '@styled-icons/material-outlined/Close';
-import React, { useState } from 'react';
+import { ArrowBack as ArrowBackIcon } from '@styled-icons/material-outlined/ArrowBack';
+import React, { useEffect, useRef, useState } from 'react';
 import { LogoLink } from '../LogoLink';
 import { MenuLink } from '../MenuLink';
 import * as Styled from './styles';
@@ -14,11 +14,47 @@ export type MenuProps = {
 
 export const Menu = ({ blogName, logo, posts = [] }: MenuProps) => {
   const [menuVisible, setMenuVisible] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null); // Referência para detectar o clique fora
 
-  const handleOpenCloseMenu = (event: React.MouseEvent) => {
-    event.preventDefault();
+  const handleOpenCloseMenu = (event?: React.MouseEvent) => {
+    if (event) event.preventDefault();
     setMenuVisible((v) => !v);
   };
+
+  useEffect(() => {
+    const handleOutsideClickAndEsc = (event: MouseEvent | KeyboardEvent) => {
+      // 1. Lógica do ESC
+      if (event instanceof KeyboardEvent && event.key === 'Escape') {
+        setMenuVisible(false);
+      }
+
+      // 2. Lógica do Clique Fora
+      if (
+        event instanceof MouseEvent &&
+        menuRef.current &&
+        !menuRef.current.contains(event.target as Node)
+      ) {
+        // Ignora se o clique foi no próprio botão de abrir
+        const isClickOnOpenButton = (event.target as HTMLElement).closest(
+          '[aria-label="Open or close menu"]',
+        );
+        if (!isClickOnOpenButton) {
+          setMenuVisible(false);
+        }
+      }
+    };
+
+    if (menuVisible) {
+      document.addEventListener('mousedown', handleOutsideClickAndEsc);
+      document.addEventListener('keydown', handleOutsideClickAndEsc);
+    }
+
+    // Limpeza dos eventos ao fechar ou desmontar
+    return () => {
+      document.removeEventListener('mousedown', handleOutsideClickAndEsc);
+      document.removeEventListener('keydown', handleOutsideClickAndEsc);
+    };
+  }, [menuVisible]);
 
   return (
     <>
@@ -29,11 +65,14 @@ export const Menu = ({ blogName, logo, posts = [] }: MenuProps) => {
         title="Open or close menu"
         onClick={handleOpenCloseMenu}
       >
-        {menuVisible && <CloseIcon aria-label="Close menu" />}
         {!menuVisible && <MenuIcon aria-label="Open menu" />}
       </Styled.OpenClose>
 
-      <Styled.Wrapper menuVisible={menuVisible} aria-hidden={!menuVisible}>
+      <Styled.Wrapper
+        ref={menuRef}
+        menuVisible={menuVisible}
+        aria-hidden={!menuVisible}
+      >
         <Styled.Nav>
           <Styled.Logo>
             <LogoLink link="/" text={blogName} srcImg={logo} />
@@ -44,6 +83,10 @@ export const Menu = ({ blogName, logo, posts = [] }: MenuProps) => {
               {post.title}
             </MenuLink>
           ))}
+          <Styled.CloseMenuLink onClick={handleOpenCloseMenu}>
+            <ArrowBackIcon aria-hidden="true" />
+            Fechar Menu
+          </Styled.CloseMenuLink>
         </Styled.Nav>
       </Styled.Wrapper>
     </>
