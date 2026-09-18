@@ -1,5 +1,3 @@
-/* eslint-disable prettier/prettier */
-//esse arquivo é so para vermos a pagina no storybook pois os que tem utilidades são o category, author, post e tag. Que buscaram o post e abriram unitariamente
 import Head from 'next/head';
 import { GetStaticProps } from 'next';
 import {
@@ -14,9 +12,7 @@ export default function Index({
   setting,
   variables,
 }: StrapiPostAndSettings) {
-
   return (
-
     <>
       <Head>
         <title>
@@ -24,12 +20,19 @@ export default function Index({
         </title>
         <meta name="description" content={setting.blogDescription} />
       </Head>
-      <PostsTemplate posts={posts} settings={setting} variables={variables} />
+      <PostsTemplate
+        posts={posts}
+        settings={setting}
+        variables={variables}
+        allPosts={posts}
+      />
     </>
   );
 }
 
-export const getStaticProps: GetStaticProps<StrapiPostAndSettings> = async () => {
+export const getStaticProps: GetStaticProps<
+  StrapiPostAndSettings
+> = async () => {
   let data = null;
 
   try {

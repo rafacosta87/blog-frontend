@@ -56,29 +56,19 @@ export const BaseTemplate = ({
     }
   };
 
+  const logoUrl = settings?.logo?.[0]?.url || '';
+
   return (
     <Styled.Wrapper>
       <ToggleTheme />
-      {settings.logo.map((el) => {
-        return (
-          <span key={el.id}>
-            <Menu blogName={settings.blogName} logo={el.url} posts={posts} />
-          </span>
-        );
-      })}
+      <Menu blogName={settings.blogName} logo={logoUrl} posts={posts} />
 
       <Styled.HeaderContainer>
-        {settings.logo.map((el) => {
-          return (
-            <span key={el.id}>
-              <Header
-                blogName={settings.blogName}
-                blogDescription={settings.blogDescription}
-                logo={el.url}
-              />
-            </span>
-          );
-        })}
+        <Header
+          blogName={settings.blogName}
+          blogDescription={settings.blogDescription}
+          logo={logoUrl}
+        />
       </Styled.HeaderContainer>
 
       <Styled.SearchContainer>
