@@ -21,7 +21,7 @@ export const Excerpt = styled.p`
   `}
 `;
 
-export const Cover = styled.img`
+export const Cover = styled.img<React.ImgHTMLAttributes<HTMLImageElement>>`
   ${({ theme }) => css`
     max-width: 100%;
     display: block;

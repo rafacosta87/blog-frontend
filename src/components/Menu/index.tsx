@@ -1,20 +1,21 @@
 import { Menu as MenuIcon } from '@styled-icons/material-outlined/Menu';
+import { Close as CloseIcon } from '@styled-icons/material-outlined/Close';
 import { ArrowBack as ArrowBackIcon } from '@styled-icons/material-outlined/ArrowBack';
 import React, { useEffect, useRef, useState } from 'react';
 import { LogoLink } from '../LogoLink';
 import { MenuLink } from '../MenuLink';
 import * as Styled from './styles';
-import { PostStrapi } from '../../shared-types/post-strapi';
+import { PostModel } from '../../shared-types/post';
 
 export type MenuProps = {
   blogName: string;
   logo: string;
-  posts?: PostStrapi[];
+  posts?: PostModel[];
 };
 
 export const Menu = ({ blogName, logo, posts = [] }: MenuProps) => {
   const [menuVisible, setMenuVisible] = useState(false);
-  const menuRef = useRef<HTMLDivElement>(null); // Referência para detectar o clique fora
+  const menuRef = useRef<HTMLDivElement>(null);
 
   const handleOpenCloseMenu = (event?: React.MouseEvent) => {
     if (event) event.preventDefault();
@@ -34,7 +35,6 @@ export const Menu = ({ blogName, logo, posts = [] }: MenuProps) => {
         menuRef.current &&
         !menuRef.current.contains(event.target as Node)
       ) {
-        // Ignora se o clique foi no próprio botão de abrir
         const isClickOnOpenButton = (event.target as HTMLElement).closest(
           '[aria-label="Open or close menu"]',
         );
@@ -49,7 +49,6 @@ export const Menu = ({ blogName, logo, posts = [] }: MenuProps) => {
       document.addEventListener('keydown', handleOutsideClickAndEsc);
     }
 
-    // Limpeza dos eventos ao fechar ou desmontar
     return () => {
       document.removeEventListener('mousedown', handleOutsideClickAndEsc);
       document.removeEventListener('keydown', handleOutsideClickAndEsc);
@@ -65,6 +64,7 @@ export const Menu = ({ blogName, logo, posts = [] }: MenuProps) => {
         title="Open or close menu"
         onClick={handleOpenCloseMenu}
       >
+        {menuVisible && <CloseIcon aria-label="Close menu" />}
         {!menuVisible && <MenuIcon aria-label="Open menu" />}
       </Styled.OpenClose>
 
@@ -83,6 +83,7 @@ export const Menu = ({ blogName, logo, posts = [] }: MenuProps) => {
               {post.title}
             </MenuLink>
           ))}
+
           <Styled.CloseMenuLink onClick={handleOpenCloseMenu}>
             <ArrowBackIcon aria-hidden="true" />
             Fechar Menu

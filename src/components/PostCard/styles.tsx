@@ -29,7 +29,7 @@ export const Wrapper = styled.div`
   `}
 `;
 
-export const Cover = styled.img`
+export const Cover = styled.img<React.ImgHTMLAttributes<HTMLImageElement>>`
   width: 100%;
   height: 20rem;
   object-fit: cover;

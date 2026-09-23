@@ -4,14 +4,14 @@ import { useRouter } from 'next/dist/client/router';
 import {
   defaultLoadPostsVariables,
   loadPosts,
-  StrapiPostAndSettings,
+  PostsAndSettings,
 } from '../../api/load-posts';
 import { PostsTemplate } from '../../templates/PostsTemplate';
-import { PostStrapi } from '../../shared-types/post-strapi';
+import { PostModel } from '../../shared-types/post';
 import { Loading } from '../../components/Loading';
 
-type AuthorPageProps = StrapiPostAndSettings & {
-  allPosts: PostStrapi[];
+type AuthorPageProps = PostsAndSettings & {
+  allPosts: PostModel[];
 };
 
 export default function AuthorPage({

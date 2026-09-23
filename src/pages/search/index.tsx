@@ -4,27 +4,22 @@ import { useRouter } from 'next/dist/client/router';
 import {
   defaultLoadPostsVariables,
   loadPosts,
-  StrapiPostAndSettings,
+  PostsAndSettings,
 } from '../../api/load-posts';
 import { PostsTemplate } from '../../templates/PostsTemplate';
-import { PostStrapi } from '../../shared-types/post-strapi';
+import { PostModel } from '../../shared-types/post';
 
-type SearchPageProps = StrapiPostAndSettings & {
-  allPosts: PostStrapi[];
+type SearchPageProps = PostsAndSettings & {
+  allPosts: PostModel[];
 };
 
 export default function SearchPage({
   posts,
   setting,
   variables,
-
   allPosts,
 }: SearchPageProps) {
   const router = useRouter();
-
-  if (router.isFallback) {
-    return <h1>Loading...</h1>;
-  }
 
   return (
     <>
@@ -58,9 +53,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const variables = { postSearch: query as string };
 
   try {
-    // 1. Fetch filtered posts for the search page
     data = await loadPosts(variables);
-    // 2. Fetch all posts for the sidebar menu
     allPostsData = await loadPosts();
   } catch (e) {
     data = null;

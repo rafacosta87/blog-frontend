@@ -1,16 +1,16 @@
 import * as Styled from './styles';
 import { PostGrid } from '../../components/PostGrid';
-import { PostStrapi } from '../../shared-types/post-strapi';
-import { SettingsStrapi } from '../../shared-types/settings-strapi';
+import { PostModel } from '../../shared-types/post';
+import { Settings } from '../../shared-types/settings';
 import { BaseTemplate } from '../Base';
 import { useEffect, useState } from 'react';
 import { loadPosts, LoadPostsVariables } from '../../api/load-posts';
 import { Autorenew } from '@styled-icons/material-outlined/Autorenew';
 
 export type PostsTemplateProps = {
-  settings: SettingsStrapi;
-  posts?: PostStrapi[];
-  allPosts?: PostStrapi[];
+  settings: Settings;
+  posts?: PostModel[];
+  allPosts?: PostModel[];
   variables?: LoadPostsVariables;
 };
 

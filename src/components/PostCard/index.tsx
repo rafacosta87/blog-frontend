@@ -1,32 +1,25 @@
 /* eslint-disable prettier/prettier */
 import Link from 'next/link';
-import { StrapiImage } from '../../shared-types/strapi-image';
+import { BlogImage } from '../../shared-types/blog-image';
 import { Heading } from '../Heading';
 import * as Styled from './styles';
 
 export type PostCardProps = {
   id: string;
   title: string;
-  cover: StrapiImage[];
+  cover: BlogImage[];
   excerpt: string;
   slug: string;
 };
 
-export const PostCard = ({ title, cover = [], excerpt, slug }: PostCardProps) => {
+export const PostCard = ({ id, title, cover, excerpt, slug }: PostCardProps) => {
   return (
     <Styled.Wrapper>
-      {cover.map((el) => {
-        return (
-          <span key={el.id}>
             <Link href={`/post/${slug}`}>
               <a>
-                <Styled.Cover src={el.url} alt={title} />
+          <Styled.Cover src={cover[0]?.url || ''} alt={title} />
               </a>
             </Link>
-          </span>
-        );
-      })}
-
       <Heading as="h2" size="small">
         <Link href={`/post/${slug}`}>
           <a>{title}</a>
@@ -37,3 +30,4 @@ export const PostCard = ({ title, cover = [], excerpt, slug }: PostCardProps) =>
     </Styled.Wrapper>
   );
 };
+

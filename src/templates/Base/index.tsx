@@ -5,16 +5,16 @@ import { GoTop } from '../../components/GoTop';
 import { Header } from '../../components/Header';
 import { Menu } from '../../components/Menu';
 import { ToggleTheme } from '../../components/ToggleTheme';
-import { SettingsStrapi } from '../../shared-types/settings-strapi';
-import { PostStrapi } from '../../shared-types/post-strapi';
+import { Settings } from '../../shared-types/settings';
+import { PostModel } from '../../shared-types/post';
 import * as Styled from './styles';
 
 import { Search } from '@styled-icons/material-outlined/Search';
 import { Autorenew } from '@styled-icons/material-outlined/Autorenew';
 
 export type BaseTemplateProps = {
-  settings: SettingsStrapi;
-  posts?: PostStrapi[];
+  settings: Settings;
+  posts?: PostModel[];
   children: React.ReactNode;
 };
 

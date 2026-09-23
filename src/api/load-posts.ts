@@ -1,7 +1,7 @@
 /* eslint-disable no-case-declarations */
-import { fetchJson, getStrapiUploadsUrl } from './rest';
-import { PostStrapi } from '../shared-types/post-strapi';
-import { SettingsStrapi } from '../shared-types/settings-strapi';
+import { fetchJson, getApiUploadsUrl } from './rest';
+import { PostModel } from '../shared-types/post';
+import { Settings } from '../shared-types/settings';
 
 export type LoadPostsVariables = {
   categorySlug?: string;
@@ -14,9 +14,9 @@ export type LoadPostsVariables = {
   limit?: number;
 };
 
-export type StrapiPostAndSettings = {
-  setting: SettingsStrapi;
-  posts: PostStrapi[];
+export type PostsAndSettings = {
+  setting: Settings;
+  posts: PostModel[];
   variables?: LoadPostsVariables;
 };
 
@@ -25,13 +25,12 @@ export const defaultLoadPostsVariables: LoadPostsVariables = {
   start: 0,
   limit: 6,
 };
-
-// Helper to format image paths into StrapiImage array format expected by React components
+// Função auxiliar para formatar caminhos de imagens em array de BlogImage esperado pelos componentes React
 const formatCoverImage = (coverPath?: string, id = '1') => {
   if (!coverPath) return [];
   const fullUrl = coverPath.startsWith('http')
     ? coverPath
-    : getStrapiUploadsUrl(coverPath);
+    : getApiUploadsUrl(coverPath);
   return [
     {
       id: String(id),
@@ -45,7 +44,7 @@ const formatBlock = (block: any): string => {
   if (!block) return '';
   if (typeof block === 'string') return block;
 
-  // Handle Strapi v4 Rich Text / Blocks Editor (type & children)
+  // Suporte a blocos e elementos ricos de texto
   if (block.type) {
     const childrenText = Array.isArray(block.children)
       ? block.children.map((child: any) => child.text || '').join('')
@@ -68,9 +67,7 @@ const formatBlock = (block: any): string => {
       case 'quote':
         return `<blockquote><p>${childrenText}</p></blockquote>`;
       case 'image':
-        const url = block.image?.url
-          ? getStrapiUploadsUrl(block.image.url)
-          : '';
+        const url = block.image?.url ? getApiUploadsUrl(block.image.url) : '';
         return url
           ? `<img src="${url}" alt="${block.image?.alternativeText || ''}" />`
           : '';
@@ -79,21 +76,7 @@ const formatBlock = (block: any): string => {
     }
   }
 
-  // Handle Strapi Dynamic Zone components (__component)
-  if (block.__component === 'shared.rich-text') {
-    return block.body || '';
-  }
-  if (block.__component === 'shared.quote') {
-    return `<blockquote><p>${block.body || ''}</p><cite>${
-      block.title || ''
-    }</cite></blockquote>`;
-  }
-  if (block.__component === 'shared.media' && block.file) {
-    const imgUrl = getStrapiUploadsUrl(`/uploads/${block.file}`);
-    return `<img src="${imgUrl}" alt="Media" />`;
-  }
-
-  // Fallback for objects with body/title/text
+  // Suporte a componentes dinâmicos de texto e mídia
   if (block.body) return block.body;
   if (block.text) return block.text;
 
@@ -105,25 +88,21 @@ const formatContent = (content: any): string => {
 
   let parsedContent = content;
 
-  // If content is a JSON string, try to parse it
   if (typeof content === 'string') {
     if (content.trim().startsWith('<')) {
-      // It's already HTML string
       return content;
     }
     try {
       parsedContent = JSON.parse(content);
     } catch (e) {
-      return content; // Plain string / HTML
+      return content;
     }
   }
 
-  // If content is an array of blocks/objects
   if (Array.isArray(parsedContent)) {
     return parsedContent.map(formatBlock).filter(Boolean).join('');
   }
 
-  // If content is a single object
   if (typeof parsedContent === 'object') {
     return formatBlock(parsedContent);
   }
@@ -131,20 +110,13 @@ const formatContent = (content: any): string => {
   return String(parsedContent);
 };
 
-// Helper to format raw post from Node REST into PostStrapi format expected by frontend
-const formatPost = (rawPost: any): PostStrapi => {
+// Função auxiliar para formatar requisições brutas da API REST do Node.js para o modelo esperado no frontend
+const formatPost = (rawPost: any): PostModel => {
   const formattedContent = formatContent(rawPost.content);
 
   const authorName =
     rawPost.author?.name || rawPost.author?.displayName || 'Author';
-  // Gera um slug amigável a partir do nome do autor (ex: "Otávio Miranda" -> "otavio-miranda")
-  const authorSlug =
-    rawPost.author?.slug ||
-    authorName
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, '-')
-      .replace(/^-*|-*$/g, '');
-
+  const authorSlug = rawPost.author?.slug || 'author';
   return {
     id: String(rawPost.id),
     title: rawPost.title || '',
@@ -157,17 +129,12 @@ const formatPost = (rawPost: any): PostStrapi => {
     categories: (rawPost.categories || []).map((cat: any) => ({
       id: String(cat.id),
       displayName: cat.name || cat.displayName || '',
-      slug:
-        cat.slug || (cat.name || '').toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+      slug: cat.slug || '',
     })),
     tags: (rawPost.tags || []).map((tag: any) => ({
       id: String(tag.id),
       displayName: tag.displayName || tag.name || '',
-      slug:
-        tag.slug ||
-        (tag.displayName || tag.name || '')
-          .toLowerCase()
-          .replace(/[^a-z0-9]+/g, '-'),
+      slug: tag.slug || '',
     })),
     author: {
       id: String(rawPost.author?.id || '1'),
@@ -179,7 +146,7 @@ const formatPost = (rawPost: any): PostStrapi => {
 
 export const loadPosts = async (
   variables: LoadPostsVariables = {},
-): Promise<StrapiPostAndSettings> => {
+): Promise<PostsAndSettings> => {
   const mergedVariables = {
     ...defaultLoadPostsVariables,
     ...variables,
@@ -188,8 +155,8 @@ export const loadPosts = async (
   const { categorySlug, postSlug, postSearch, authorSlug, tagSlug } =
     mergedVariables;
 
-  // 1. Fetch Global Settings
-  let setting: SettingsStrapi = {} as SettingsStrapi;
+  // 1. Buscar Configurações Globais da API REST Node.js
+  let setting: Settings = {} as Settings;
   try {
     const rawSetting = await fetchJson('/settings');
     setting = {
@@ -199,13 +166,13 @@ export const loadPosts = async (
       text: rawSetting.text || '',
       logo: formatCoverImage(rawSetting.logo, 'logo'),
       menuLink: rawSetting.menuLinks || rawSetting.menuLink || [],
-    } as SettingsStrapi;
+    } as Settings;
   } catch (e) {
     console.error('Error fetching settings:', e);
   }
 
-  // 2. Fetch Posts
-  let posts: PostStrapi[] = [];
+  // 2. Buscar Posts da API REST Node.js
+  let posts: PostModel[] = [];
 
   if (postSlug) {
     try {

@@ -4,14 +4,14 @@ import { useRouter } from 'next/dist/client/router';
 import {
   defaultLoadPostsVariables,
   loadPosts,
-  StrapiPostAndSettings,
+  PostsAndSettings,
 } from '../../api/load-posts';
 import { PostsTemplate } from '../../templates/PostsTemplate';
-import { PostStrapi } from '../../shared-types/post-strapi';
+import { PostModel } from '../../shared-types/post';
 import { Loading } from '../../components/Loading';
 
-type TagPageProps = StrapiPostAndSettings & {
-  allPosts: PostStrapi[];
+type TagPageProps = PostsAndSettings & {
+  allPosts: PostModel[];
 };
 
 export default function TagPage({

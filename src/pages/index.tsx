@@ -3,15 +3,11 @@ import { GetStaticProps } from 'next';
 import {
   defaultLoadPostsVariables,
   loadPosts,
-  StrapiPostAndSettings,
+  PostsAndSettings,
 } from '../api/load-posts';
 import { PostsTemplate } from '../templates/PostsTemplate';
 
-export default function Index({
-  posts,
-  setting,
-  variables,
-}: StrapiPostAndSettings) {
+export default function Index({ posts, setting, variables }: PostsAndSettings) {
   return (
     <>
       <Head>
@@ -30,9 +26,7 @@ export default function Index({
   );
 }
 
-export const getStaticProps: GetStaticProps<
-  StrapiPostAndSettings
-> = async () => {
+export const getStaticProps: GetStaticProps<PostsAndSettings> = async () => {
   let data = null;
 
   try {

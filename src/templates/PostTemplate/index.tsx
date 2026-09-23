@@ -1,15 +1,15 @@
 import * as Styled from './styles';
 import { Post } from '../../components/Post';
 import { PostTags } from '../../components/PostTags';
-import { PostStrapi } from '../../shared-types/post-strapi';
-import { SettingsStrapi } from '../../shared-types/settings-strapi';
+import { PostModel } from '../../shared-types/post';
+import { Settings } from '../../shared-types/settings';
 import { BaseTemplate } from '../Base';
 import { Comments } from '../../components/Comments';
 
 export type PostTemplateProps = {
-  settings: SettingsStrapi;
-  post: PostStrapi;
-  allPosts?: PostStrapi[];
+  settings: Settings;
+  post: PostModel;
+  allPosts?: PostModel[];
 };
 
 export const PostTemplate = ({
