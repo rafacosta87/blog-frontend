@@ -73,7 +73,7 @@ export const getStaticProps: GetStaticProps = async (
 
   try {
     data = await loadPosts({ postSlug: ctx.params?.slug as string });
-    allPostsData = await loadPosts();
+    allPostsData = await loadPosts({ limit: 1000 });
   } catch (e) {
     data = null;
   }
@@ -93,3 +93,4 @@ export const getStaticProps: GetStaticProps = async (
     revalidate: 60,
   };
 };
+

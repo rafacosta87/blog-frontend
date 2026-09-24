@@ -6,8 +6,18 @@ import {
   PostsAndSettings,
 } from '../api/load-posts';
 import { PostsTemplate } from '../templates/PostsTemplate';
+import { PostModel } from '../shared-types/post';
 
-export default function Index({ posts, setting, variables }: PostsAndSettings) {
+type IndexPageProps = PostsAndSettings & {
+  allPosts: PostModel[];
+};
+
+export default function Index({
+  posts,
+  setting,
+  variables,
+  allPosts,
+}: IndexPageProps) {
   return (
     <>
       <Head>
@@ -20,17 +30,21 @@ export default function Index({ posts, setting, variables }: PostsAndSettings) {
         posts={posts}
         settings={setting}
         variables={variables}
-        allPosts={posts}
+        allPosts={allPosts || posts}
       />
     </>
   );
 }
 
-export const getStaticProps: GetStaticProps<PostsAndSettings> = async () => {
+export const getStaticProps: GetStaticProps = async () => {
   let data = null;
+  let allPostsData = null;
 
   try {
+    // 1. Busca os 6 primeiros posts para a grade principal
     data = await loadPosts();
+    // 2. Busca todos os posts (até 1000) para o menu lateral esquerdo
+    allPostsData = await loadPosts({ limit: 1000 });
   } catch (e) {
     data = null;
   }
@@ -45,6 +59,7 @@ export const getStaticProps: GetStaticProps<PostsAndSettings> = async () => {
     props: {
       posts: data.posts,
       setting: data.setting,
+      allPosts: allPostsData?.posts || data.posts,
       variables: {
         ...defaultLoadPostsVariables,
       },

@@ -60,7 +60,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
 
   try {
     data = await loadPosts(variables);
-    allPostsData = await loadPosts();
+    allPostsData = await loadPosts({ limit: 1000 });
   } catch (e) {
     data = null;
   }

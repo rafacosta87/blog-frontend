@@ -53,8 +53,10 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const variables = { postSearch: query as string };
 
   try {
+    // 1. Fetch filtered posts for the search page
     data = await loadPosts(variables);
-    allPostsData = await loadPosts();
+    // 2. Fetch all posts for the sidebar menu
+    allPostsData = await loadPosts({ limit: 1000 });
   } catch (e) {
     data = null;
   }
