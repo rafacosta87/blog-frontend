@@ -25,6 +25,7 @@ export const defaultLoadPostsVariables: LoadPostsVariables = {
   start: 0,
   limit: 6,
 };
+
 // Função auxiliar para formatar caminhos de imagens em array de BlogImage esperado pelos componentes React
 const formatCoverImage = (coverPath?: string, id = '1') => {
   if (!coverPath) return [];
@@ -40,74 +41,9 @@ const formatCoverImage = (coverPath?: string, id = '1') => {
   ];
 };
 
-const formatBlock = (block: any): string => {
-  if (!block) return '';
-  if (typeof block === 'string') return block;
-
-  // Suporte a blocos e elementos ricos de texto
-  if (block.type) {
-    const childrenText = Array.isArray(block.children)
-      ? block.children.map((child: any) => child.text || '').join('')
-      : '';
-
-    switch (block.type) {
-      case 'paragraph':
-        return `<p>${childrenText}</p>`;
-      case 'heading':
-        const level = block.level || 2;
-        return `<h${level}>${childrenText}</h${level}>`;
-      case 'list':
-        const tag = block.format === 'ordered' ? 'ol' : 'ul';
-        const items = Array.isArray(block.children)
-          ? block.children
-              .map((item: any) => `<li>${formatBlock(item)}</li>`)
-              .join('')
-          : childrenText;
-        return `<${tag}>${items}</${tag}>`;
-      case 'quote':
-        return `<blockquote><p>${childrenText}</p></blockquote>`;
-      case 'image':
-        const url = block.image?.url ? getApiUploadsUrl(block.image.url) : '';
-        return url
-          ? `<img src="${url}" alt="${block.image?.alternativeText || ''}" />`
-          : '';
-      default:
-        return childrenText ? `<p>${childrenText}</p>` : '';
-    }
-  }
-
-  // Suporte a componentes dinâmicos de texto e mídia
-  if (block.body) return block.body;
-  if (block.text) return block.text;
-
-  return '';
-};
-
 const formatContent = (content: any): string => {
   if (!content) return '';
-
-  let parsedContent = content;
-
-  if (typeof content === 'string') {
-    if (content.trim().startsWith('<')) {
-      return content;
-    }
-    try {
-      parsedContent = JSON.parse(content);
-    } catch (e) {
-      return content;
-    }
-  }
-
-  if (Array.isArray(parsedContent)) {
-    return parsedContent.map(formatBlock).filter(Boolean).join('');
-  }
-
-  if (typeof parsedContent === 'object') {
-    return formatBlock(parsedContent);
-  }
-
-  return String(parsedContent);
+  return typeof content === 'string' ? content : String(content);
 };
 
 // Função auxiliar para formatar requisições brutas da API REST do Node.js para o modelo esperado no frontend
