@@ -21,15 +21,16 @@ export default function PostPage({ posts = [], setting, allPosts = [] }: PostPag
 
   const post = posts[0];
 
-  if (!post) {
-    return (
-      <PostsTemplate
-        posts={[]}
-        settings={setting}
-        allPosts={allPosts}
-      />
-    );
-  }
+if (!post) {
+  return (
+    <>
+      <Head>
+        <title>Post não encontrado - {setting?.blogName || 'Blog'}</title>
+      </Head>
+      <PostsTemplate posts={[]} settings={setting} allPosts={allPosts} />
+    </>
+  );
+}
 
   return (
     <>

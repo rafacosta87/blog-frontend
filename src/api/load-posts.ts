@@ -59,7 +59,7 @@ const formatPost = (rawPost: any): PostModel => {
     slug: rawPost.slug || '',
     excerpt: rawPost.excerpt || '',
     content: formattedContent,
-    allowComments: rawPost.allowComments ?? true,
+    allowComments: rawPost.allowComments,
     createdAt: rawPost.createdAt || new Date().toISOString(),
     cover: formatCoverImage(rawPost.cover, rawPost.id),
     categories: (rawPost.categories || []).map((cat: any) => ({
@@ -73,7 +73,7 @@ const formatPost = (rawPost: any): PostModel => {
       slug: tag.slug || '',
     })),
     author: {
-      id: String(rawPost.author?.id || '1'),
+      id: String(rawPost.author?.id),
       displayName: authorName,
       slug: authorSlug,
     },
@@ -101,7 +101,7 @@ export const loadPosts = async (
       blogDescription: rawSetting.blogDescription || '',
       text: rawSetting.text || '',
       logo: formatCoverImage(rawSetting.logo, 'logo'),
-      menuLink: rawSetting.menuLinks || rawSetting.menuLink || [],
+      menuLink: rawSetting.menuLinks || [],
     } as Settings;
   } catch (e) {
     console.error('Error fetching settings:', e);

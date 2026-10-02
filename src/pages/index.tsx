@@ -1,10 +1,6 @@
 import Head from 'next/head';
 import { GetStaticProps } from 'next';
-import {
-  defaultLoadPostsVariables,
-  loadPosts,
-  PostsAndSettings,
-} from '../api/load-posts';
+import { loadPosts, PostsAndSettings } from '../api/load-posts';
 import { PostsTemplate } from '../templates/PostsTemplate';
 import { PostModel } from '../shared-types/post';
 
@@ -60,9 +56,7 @@ export const getStaticProps: GetStaticProps = async () => {
       posts: data.posts,
       setting: data.setting,
       allPosts: allPostsData?.posts || data.posts,
-      variables: {
-        ...defaultLoadPostsVariables,
-      },
+      variables: data.variables,
     },
     revalidate: 60,
   };

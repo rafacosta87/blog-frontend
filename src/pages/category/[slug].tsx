@@ -1,11 +1,8 @@
+//ver questão da pagina de erro como funciona.
 import Head from 'next/head';
 import { GetStaticPaths, GetStaticProps } from 'next';
 import { useRouter } from 'next/dist/client/router';
-import {
-  defaultLoadPostsVariables,
-  loadPosts,
-  PostsAndSettings,
-} from '../../api/load-posts';
+import { loadPosts, PostsAndSettings } from '../../api/load-posts';
 import { PostsTemplate } from '../../templates/PostsTemplate';
 import { PostModel } from '../../shared-types/post';
 import { Loading } from '../../components/Loading';
@@ -59,6 +56,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
   let allPostsData = null;
   const categorySlug = ctx.params?.slug as string;
   const variables = { categorySlug };
+  console.log(ctx);
 
   try {
     data = await loadPosts(variables);
@@ -78,10 +76,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
       posts: data.posts || [],
       setting: data.setting,
       allPosts: allPostsData?.posts || [],
-      variables: {
-        ...defaultLoadPostsVariables,
-        ...variables,
-      },
+      variables: data.variables,
     },
     revalidate: 60,
   };

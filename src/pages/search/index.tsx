@@ -1,11 +1,7 @@
 import Head from 'next/head';
 import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/dist/client/router';
-import {
-  defaultLoadPostsVariables,
-  loadPosts,
-  PostsAndSettings,
-} from '../../api/load-posts';
+import { loadPosts, PostsAndSettings } from '../../api/load-posts';
 import { PostsTemplate } from '../../templates/PostsTemplate';
 import { PostModel } from '../../shared-types/post';
 
@@ -72,10 +68,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       posts: data.posts,
       setting: data.setting,
       allPosts: allPostsData?.posts || data.posts,
-      variables: {
-        ...defaultLoadPostsVariables,
-        ...variables,
-      },
+      variables: data.variables,
     },
   };
 };
