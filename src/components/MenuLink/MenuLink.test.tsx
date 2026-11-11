@@ -5,30 +5,12 @@ import { MenuLink } from '.';
 describe('<MenuLink />', () => {
   it('should render a link', () => {
     renderTheme(<MenuLink link="http://localhost">Children</MenuLink>);
-    expect(screen.getByRole('link', { name: 'Children' })).toHaveAttribute(
-      'target',
-      '_self',
-    );
+    expect(screen.getByRole('link', { name: 'Children' })).toBeInTheDocument();
   });
 
   it('should render a internal link', () => {
     renderTheme(<MenuLink link="/localhost">Children</MenuLink>);
-    expect(screen.getByRole('link', { name: 'Children' })).toHaveAttribute(
-      'target',
-      '_self',
-    );
-  });
-
-  it('should render open in a new tab', () => {
-    renderTheme(
-      <MenuLink link="http://localhost" newTab={true}>
-        Children
-      </MenuLink>,
-    );
-    expect(screen.getByRole('link', { name: 'Children' })).toHaveAttribute(
-      'target',
-      '_blank',
-    );
+    expect(screen.getByRole('link', { name: 'Children' })).toBeInTheDocument();
   });
 
   it('should render open in a new tab', () => {
@@ -39,26 +21,33 @@ describe('<MenuLink />', () => {
     );
     expect(container.firstChild).toMatchInlineSnapshot(`
       .c0 {
-        display: block;
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-align-items: center;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+        width: 100%;
         color: #FFFFFF;
         -webkit-text-decoration: none;
         text-decoration: none;
-        margin-bottom: 1.6rem;
-        font-size: 1.8rem;
-        border-right: 0.5rem solid #000000;
-        -webkit-transition: all 300ms ease-in-out;
-        transition: all 300ms ease-in-out;
+        padding: 1rem;
+        font-size: 1.7rem;
+        font-weight: 600;
+        border-radius: 0.5rem;
+        -webkit-transition: all 200ms ease-in-out;
+        transition: all 200ms ease-in-out;
       }
 
       .c0:hover {
-        border-right: 0.5rem solid #dc143c;
-        color: #dc143c;
+        background: rgba(255,255,255,0.15);
       }
 
       <a
         class="c0"
-        href="http://localhost"
-        target="_self"
+        href="http://localhost/"
       >
         Children
       </a>

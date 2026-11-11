@@ -2,6 +2,7 @@
 import { fetchJson, getApiUploadsUrl } from './rest';
 import { PostModel } from '../shared-types/post';
 import { Settings } from '../shared-types/settings';
+import { BlogImage } from '../shared-types/blog-image';
 
 export type LoadPostsVariables = {
   categorySlug?: string;
@@ -26,19 +27,23 @@ export const defaultLoadPostsVariables: LoadPostsVariables = {
   limit: 6,
 };
 
-// Função auxiliar para formatar caminhos de imagens em array de BlogImage esperado pelos componentes React
-const formatCoverImage = (coverPath?: string, id = '1') => {
-  if (!coverPath) return [];
+// Função auxiliar para formatar caminhos de imagens em um objeto BlogImage esperado pelos componentes React
+const formatCoverImage = (coverPath?: string, id = '1'): BlogImage => {
+  if (!coverPath) {
+    return {
+      id: String(id),
+      alternativeText: 'Cover Image',
+      url: '',
+    };
+  }
   const fullUrl = coverPath.startsWith('http')
     ? coverPath
     : getApiUploadsUrl(coverPath);
-  return [
-    {
-      id: String(id),
-      alternativeText: 'Cover Image',
-      url: fullUrl,
-    },
-  ];
+  return {
+    id: String(id),
+    alternativeText: 'Cover Image',
+    url: fullUrl,
+  };
 };
 
 const formatContent = (content: any): string => {

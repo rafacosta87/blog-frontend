@@ -18,7 +18,7 @@ export const Label = styled.label`
   color: rgba(0, 0, 0, 0);
 `;
 
-export const Input = styled.input`
+export const Input = styled.input<React.InputHTMLAttributes<HTMLInputElement>>`
   ${({ theme }) => css`
     appearance: none;
     opacity: 0;

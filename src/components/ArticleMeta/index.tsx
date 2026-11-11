@@ -24,7 +24,7 @@ export const ArticleMeta = ({
             <Link href={`/author/${author.slug}`}>
               <a>{author.displayName}</a>
             </Link>
-            <span className="separator"> | </span>
+            <span> | </span>
           </>
         )}
 
@@ -32,7 +32,7 @@ export const ArticleMeta = ({
 
         {categories && categories.length > 0 && (
           <>
-            <span className="separator"> | </span>
+            <span> | </span>
             <span className="categories">
               {categories.map((category) => {
                 return (

@@ -7,7 +7,7 @@ export type ArticleHeaderProps = {
   id: string;
   title: string;
   excerpt: string;
-  cover: BlogImage[];
+  cover: BlogImage;
 } & ArticleMetaProps;
 
 export const ArticleHeader = ({
@@ -24,7 +24,7 @@ export const ArticleHeader = ({
         {title}
       </Heading>
       <Styled.Excerpt>{excerpt}</Styled.Excerpt>
-      <Styled.Cover src={cover[0]?.url || ''} alt={title} />
+      <Styled.Cover src={cover?.url || ''} alt={title} />
       <ArticleMeta
         author={author}
         categories={categories}

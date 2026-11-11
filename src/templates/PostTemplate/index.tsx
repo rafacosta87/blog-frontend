@@ -1,4 +1,3 @@
-import * as Styled from './styles';
 import { Post } from '../../components/Post';
 import { PostTags } from '../../components/PostTags';
 import { PostModel } from '../../shared-types/post';
@@ -24,9 +23,7 @@ export const PostTemplate = ({
     >
       <Post {...post} />
 
-      <Styled.TagsContainer>
-        <PostTags tags={post.tags} />
-      </Styled.TagsContainer>
+      <PostTags tags={post.tags} />
 
       <Comments
         title={post.title}

@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import Head from 'next/head';
 import { GetStaticPaths, GetStaticProps } from 'next';
 import { useRouter } from 'next/dist/client/router';
@@ -12,7 +11,11 @@ type PostPageProps = PostsAndSettings & {
   allPosts: PostModel[];
 };
 
-export default function PostPage({ posts = [], setting, allPosts = [] }: PostPageProps) {
+export default function PostPage({
+  posts = [],
+  setting,
+  allPosts = [],
+}: PostPageProps) {
   const router = useRouter();
 
   if (router.isFallback) {
@@ -21,16 +24,16 @@ export default function PostPage({ posts = [], setting, allPosts = [] }: PostPag
 
   const post = posts[0];
 
-if (!post) {
-  return (
-    <>
-      <Head>
-        <title>Post não encontrado - {setting?.blogName || 'Blog'}</title>
-      </Head>
-      <PostsTemplate posts={[]} settings={setting} allPosts={allPosts} />
-    </>
-  );
-}
+  if (!post) {
+    return (
+      <>
+        <Head>
+          <title>Post não encontrado - {setting?.blogName || 'Blog'}</title>
+        </Head>
+        <PostsTemplate posts={[]} settings={setting} allPosts={allPosts} />
+      </>
+    );
+  }
 
   return (
     <>
@@ -40,7 +43,11 @@ if (!post) {
         </title>
         <meta name="description" content={post.excerpt} />
       </Head>
-      <PostTemplate post={post} settings={setting} allPosts={allPosts || posts} />
+      <PostTemplate
+        post={post}
+        settings={setting}
+        allPosts={allPosts || posts}
+      />
     </>
   );
 }
@@ -66,9 +73,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   };
 };
 
-export const getStaticProps: GetStaticProps = async (
-  ctx,
-) => {
+export const getStaticProps: GetStaticProps = async (ctx) => {
   let data = null;
   let allPostsData = null;
 
@@ -94,4 +99,3 @@ export const getStaticProps: GetStaticProps = async (
     revalidate: 60,
   };
 };
-

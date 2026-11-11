@@ -5,7 +5,6 @@ export type HeadingProps = {
   colorDark?: boolean;
   as?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
   size?: 'small' | 'medium' | 'big' | 'huge';
-  uppercase?: boolean;
 };
 
 export const Heading = ({
@@ -13,15 +12,9 @@ export const Heading = ({
   colorDark = true,
   as = 'h1',
   size = 'huge',
-  uppercase = false,
 }: HeadingProps) => {
   return (
-    <Styled.Title
-      colorDark={colorDark}
-      as={as}
-      size={size}
-      uppercase={uppercase}
-    >
+    <Styled.Title colorDark={colorDark} as={as} size={size}>
       {children}
     </Styled.Title>
   );

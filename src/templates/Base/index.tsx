@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Footer } from '../../components/Footer';
 import { GoTop } from '../../components/GoTop';
 import { Header } from '../../components/Header';
@@ -27,12 +27,6 @@ export const BaseTemplate = ({
   const [searchValue, setSearchValue] = useState(router?.query?.q || '');
   const [searchDisabled, setSearchDisabled] = useState(false);
 
-  useEffect(() => {
-    if (router?.query?.q) {
-      setSearchValue(router.query.q as string);
-    }
-  }, [router?.query?.q]);
-
   const handleSearch = () => {
     const q = (searchValue as string).trim();
     if (!q) return;
@@ -56,7 +50,7 @@ export const BaseTemplate = ({
     }
   };
 
-  const logoUrl = settings?.logo?.[0]?.url || '';
+  const logoUrl = settings?.logo?.url || '';
 
   return (
     <Styled.Wrapper>

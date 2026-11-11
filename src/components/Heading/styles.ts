@@ -23,15 +23,10 @@ const mediaFont = (theme: DefaultTheme) => css`
   }
 `;
 
-const titleCase = (uppercase: boolean) => css`
-  text-transform: ${uppercase ? 'uppercase' : 'none'};
-`;
-
 export const Title = styled.h1<HeadingProps>`
-  ${({ theme, colorDark, size, uppercase }) => css`
+  ${({ theme, colorDark, size }) => css`
     color: ${colorDark ? theme.colors.primary : theme.colors.white};
     line-height: 1.2;
     ${titleSize[size](theme)};
-    ${titleCase(uppercase)};
   `}
 `;

@@ -15,7 +15,7 @@ export const Wrapper = styled.p`
     }
 
     span::after {
-      content: ', ';
+      content: ',';
     }
 
     span:last-child::after {

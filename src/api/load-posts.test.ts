@@ -1,47 +1,66 @@
-import request from 'graphql-request';
-import config from '../config';
 import { defaultLoadPostsVariables, loadPosts } from './load-posts';
+import * as restModule from './rest';
 
-jest.mock('graphql-request');
-
-jest.mock('../graphql/queries', () => {
-  return {
-    GRAPHQL_QUERY: 'A_QUERY',
-  };
-});
+jest.mock('./rest');
 
 describe('load-posts', () => {
-  it('should call request with default variables', async () => {
-    await loadPosts();
-    expect(request).toHaveBeenCalledWith(
-      config.graphqlURL,
-      'A_QUERY',
-      defaultLoadPostsVariables,
-    );
+  const mockSetting = {
+    id: '1',
+    blogName: 'Test Blog',
+    blogDescription: 'Description',
+    text: 'Footer text',
+    logo: '/uploads/logo.jpg',
+    menuLinks: [],
+  };
+
+  const mockPosts = [
+    {
+      id: 1,
+      title: 'Post 1',
+      slug: 'post-1',
+      excerpt: 'Excerpt 1',
+      content: 'Content 1',
+      allowComments: true,
+      createdAt: '2023-01-01',
+      cover: '/uploads/cover.jpg',
+      author: { id: 1, name: 'Author', slug: 'author' },
+      categories: [{ id: 1, name: 'Category', slug: 'category' }],
+      tags: [{ id: 1, displayName: 'Tag', slug: 'tag' }],
+    },
+  ];
+
+  beforeEach(() => {
+    jest.clearAllMocks();
   });
 
-  it('should call request with custom variables', async () => {
-    await loadPosts({
-      authorSlug: 'OK',
-      tagSlug: 'TAG',
-      categorySlug: 'CAT',
-      limit: 100,
-      postSearch: 'SEARCH',
-      postSlug: 'SLUG',
-      sort: 'SORT',
-      start: 1,
+  it('should call fetchJson for settings and posts with default variables', async () => {
+    (restModule.fetchJson as jest.Mock).mockImplementation((path) => {
+      if (path === '/settings') return Promise.resolve(mockSetting);
+      if (path.startsWith('/posts?')) return Promise.resolve(mockPosts);
+      return Promise.resolve({});
     });
 
-    expect(request).toHaveBeenCalledWith(config.graphqlURL, 'A_QUERY', {
-      ...defaultLoadPostsVariables,
-      authorSlug: 'OK',
-      tagSlug: 'TAG',
-      categorySlug: 'CAT',
-      limit: 100,
-      postSearch: 'SEARCH',
-      postSlug: 'SLUG',
-      sort: 'SORT',
-      start: 1,
+    const result = await loadPosts();
+
+    expect(restModule.fetchJson).toHaveBeenCalledWith('/settings');
+    expect(restModule.fetchJson).toHaveBeenCalledWith(
+      '/posts?start=0&limit=6',
+    );
+    expect(result.posts).toHaveLength(1);
+    expect(result.posts[0].title).toBe('Post 1');
+  });
+
+  it('should fetch single post when postSlug is provided', async () => {
+    (restModule.fetchJson as jest.Mock).mockImplementation((path) => {
+      if (path === '/settings') return Promise.resolve(mockSetting);
+      if (path === '/posts/post-1') return Promise.resolve(mockPosts[0]);
+      return Promise.resolve({});
     });
+
+    const result = await loadPosts({ postSlug: 'post-1' });
+
+    expect(restModule.fetchJson).toHaveBeenCalledWith('/posts/post-1');
+    expect(result.posts).toHaveLength(1);
+    expect(result.posts[0].slug).toBe('post-1');
   });
 });

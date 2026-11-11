@@ -4,7 +4,9 @@ import { GoTop } from '.';
 
 describe('<GoTop />', () => {
   it('should render a go to top button', () => {
+    Object.defineProperty(window, 'scrollY', { value: 500, writable: true });
     const { container } = renderTheme(<GoTop />);
+    window.dispatchEvent(new Event('scroll'));
     expect(screen.getByRole('link', { name: 'Go to top' })).toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'Go to top' })).toHaveAttribute(
       'href',
@@ -32,6 +34,7 @@ describe('<GoTop />', () => {
         bottom: 2rem;
         right: 2rem;
         z-index: 6;
+        border-radius: 0.5rem;
       }
 
       .c1 {
@@ -56,11 +59,7 @@ describe('<GoTop />', () => {
             xmlns="http://www.w3.org/2000/svg"
           >
             <path
-              d="M0 0h24v24H0V0z"
-              fill="none"
-            />
-            <path
-              d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6 1.41 1.41z"
+              d="M7.41 15.41 12 10.83l4.59 4.58L18 14l-6-6-6 6 1.41 1.41z"
             />
           </svg>
         </a>

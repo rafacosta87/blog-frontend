@@ -13,6 +13,7 @@ exports[`<LogoLink /> should match snapshot 1`] = `
   -webkit-text-decoration: none;
   text-decoration: none;
   color: inherit;
+  margin-bottom: 2.4rem;
 }
 
 .c1 > img {
@@ -26,7 +27,6 @@ exports[`<LogoLink /> should match snapshot 1`] = `
   color: #000000;
   line-height: 1.2;
   font-size: 2.4rem;
-  text-transform: uppercase;
 }
 
 <h1

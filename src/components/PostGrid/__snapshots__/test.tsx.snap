@@ -5,7 +5,17 @@ exports[`<PostGrid /> should match snapshot 1`] = `
   color: #000000;
   line-height: 1.2;
   font-size: 2.4rem;
-  text-transform: none;
+}
+
+.c2 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  height: 100%;
 }
 
 .c2 .c4 {
@@ -31,9 +41,16 @@ exports[`<PostGrid /> should match snapshot 1`] = `
 }
 
 .c3 {
-  max-width: 100%;
+  width: 100%;
+  height: 20rem;
+  object-fit: cover;
   -webkit-transition: opacity 300ms ease-in-out;
   transition: opacity 300ms ease-in-out;
+  border-radius: 0.5rem;
+}
+
+.c6 {
+  margin: 0;
 }
 
 .c0 {
@@ -65,17 +82,15 @@ exports[`<PostGrid /> should match snapshot 1`] = `
       <div
         class="c2"
       >
-        <span>
-          <a
-            href="/post/vis-nobis-veritus-maluisset-id-nonumy-adversarium"
-          >
-            <img
-              alt="Vis nobis veritus maluisset id, nonumy adversarium"
-              class="c3"
-              src="https://res.cloudinary.com/dlizakp2a/image/upload/v1614698965/Ubuntu_gel_by_Midge_Mantissa_Sinnaeve_7caea7ddb4.jpg"
-            />
-          </a>
-        </span>
+        <a
+          href="/post/vis-nobis-veritus-maluisset-id-nonumy-adversarium"
+        >
+          <img
+            alt="Vis nobis veritus maluisset id, nonumy adversarium"
+            class="c3"
+            src="https://res.cloudinary.com/dlizakp2a/image/upload/v1614698965/Ubuntu_gel_by_Midge_Mantissa_Sinnaeve_7caea7ddb4.jpg"
+          />
+        </a>
         <h2
           class="c4 c5"
         >
@@ -86,7 +101,7 @@ exports[`<PostGrid /> should match snapshot 1`] = `
           </a>
         </h2>
         <p
-          class=""
+          class="c6"
         >
           Fugit aliquip erroribus eu eam, an mel vidit doctus. Vis nobis veritus maluisset id, nonumy adversarium neglegentur est ut. Tation persius pri eu, modo minim fastidii mei no. Ad tota pertinax definiebas eam.
         </p>
@@ -94,17 +109,15 @@ exports[`<PostGrid /> should match snapshot 1`] = `
       <div
         class="c2"
       >
-        <span>
-          <a
-            href="/post/sea-array-destructuring-dicat-fabulas-consetetur"
-          >
-            <img
-              alt="Sea Array Destructuring dicat fabulas consetetur "
-              class="c3"
-              src="https://res.cloudinary.com/dlizakp2a/image/upload/v1614699042/Origin_of_nature_by_Julian_Tomasini_dcfdd17cbe.jpg"
-            />
-          </a>
-        </span>
+        <a
+          href="/post/sea-array-destructuring-dicat-fabulas-consetetur"
+        >
+          <img
+            alt="Sea Array Destructuring dicat fabulas consetetur "
+            class="c3"
+            src="https://res.cloudinary.com/dlizakp2a/image/upload/v1614699042/Origin_of_nature_by_Julian_Tomasini_dcfdd17cbe.jpg"
+          />
+        </a>
         <h2
           class="c4 c5"
         >
@@ -115,7 +128,7 @@ exports[`<PostGrid /> should match snapshot 1`] = `
           </a>
         </h2>
         <p
-          class=""
+          class="c6"
         >
           Quod oblique mei ne, cetero delicatissimi sea cu, cu est harum dicit verterem. Tota forensibus ut usu, luptatum dignissim persecuti vel ex. Mea nostrud instructior cu, et referrentur theophrastus eum. Pro in iuvaret senserit.
         </p>
@@ -123,17 +136,15 @@ exports[`<PostGrid /> should match snapshot 1`] = `
       <div
         class="c2"
       >
-        <span>
-          <a
-            href="/post/quod-oblique-mei-ne-cetero-delicatissimi-sea"
-          >
-            <img
-              alt="Quod oblique mei ne, cetero delicatissimi sea"
-              class="c3"
-              src="https://res.cloudinary.com/dlizakp2a/image/upload/v1614699042/Origin_of_nature_by_Julian_Tomasini_dcfdd17cbe.jpg"
-            />
-          </a>
-        </span>
+        <a
+          href="/post/quod-oblique-mei-ne-cetero-delicatissimi-sea"
+        >
+          <img
+            alt="Quod oblique mei ne, cetero delicatissimi sea"
+            class="c3"
+            src="https://res.cloudinary.com/dlizakp2a/image/upload/v1614699042/Origin_of_nature_by_Julian_Tomasini_dcfdd17cbe.jpg"
+          />
+        </a>
         <h2
           class="c4 c5"
         >
@@ -144,7 +155,7 @@ exports[`<PostGrid /> should match snapshot 1`] = `
           </a>
         </h2>
         <p
-          class=""
+          class="c6"
         >
           Et sed legere rationibus, vitae evertitur ad eam. Eu amet vero officiis vis. Ad nullam pericula neglegentur sit, vix ei regione legendos argumentum. Mei an quas convenire, nobis dicunt mei ut. 
         </p>

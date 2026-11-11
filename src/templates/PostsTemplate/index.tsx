@@ -38,7 +38,7 @@ export const PostsTemplate = ({
     const newVariables = {
       ...stateVariables,
       start: stateVariables.start + stateVariables.limit,
-      limit: stateVariables.limit,
+      limit: 3,
     };
 
     const morePosts = await loadPosts(newVariables);
@@ -60,7 +60,7 @@ export const PostsTemplate = ({
     >
       <PostGrid posts={statePosts} />
 
-      {statePosts && statePosts.length ? (
+      {statePosts?.length > 0 && (
         <Styled.ButtonContainer>
           <Styled.Button
             onClick={handleLoadMorePosts}
@@ -78,7 +78,7 @@ export const PostsTemplate = ({
             )}
           </Styled.Button>
         </Styled.ButtonContainer>
-      ) : null}
+      )}
     </BaseTemplate>
   );
 };

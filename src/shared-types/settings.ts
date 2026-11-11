@@ -4,6 +4,6 @@ export type Settings = {
   id: string;
   blogName: string;
   blogDescription: string;
-  logo: BlogImage[];
+  logo: BlogImage;
   text: string;
 };

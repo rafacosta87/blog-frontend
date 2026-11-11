@@ -1,5 +1,4 @@
 import { Menu as MenuIcon } from '@styled-icons/material-outlined/Menu';
-import { Close as CloseIcon } from '@styled-icons/material-outlined/Close';
 import { ArrowBack as ArrowBackIcon } from '@styled-icons/material-outlined/ArrowBack';
 import React, { useEffect, useRef, useState } from 'react';
 import { LogoLink } from '../LogoLink';
@@ -64,7 +63,6 @@ export const Menu = ({ blogName, logo, posts = [] }: MenuProps) => {
         title="Open or close menu"
         onClick={handleOpenCloseMenu}
       >
-        {menuVisible && <CloseIcon aria-label="Close menu" />}
         {!menuVisible && <MenuIcon aria-label="Open menu" />}
       </Styled.OpenClose>
 
@@ -85,7 +83,7 @@ export const Menu = ({ blogName, logo, posts = [] }: MenuProps) => {
           ))}
 
           <Styled.CloseMenuLink onClick={handleOpenCloseMenu}>
-            <ArrowBackIcon aria-hidden="true" />
+            <ArrowBackIcon aria-hidden="true" aria-label="Close menu" />
             Fechar Menu
           </Styled.CloseMenuLink>
         </Styled.Nav>

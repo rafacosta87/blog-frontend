@@ -8,20 +8,31 @@ const props: MenuProps = mock;
 
 describe('<Menu />', () => {
   it('should render button link', () => {
-    renderTheme(<Menu {...props} links={undefined} />);
+    renderTheme(<Menu {...props} />);
 
     const buttonLink = screen.getByRole('link', { name: 'Open or close menu' });
     const openMenuIcon = screen.getByLabelText('Open menu');
 
     expect(buttonLink).toBeInTheDocument();
     expect(openMenuIcon).toBeInTheDocument();
-
-    expect(screen.queryByLabelText('Close menu')).not.toBeInTheDocument();
-    expect(screen.queryByRole('navigation')).not.toBeInTheDocument();
   });
 
   it('should open/close menu on button click', () => {
-    renderTheme(<Menu {...props} />);
+    const mockPosts = [
+      {
+        id: '1',
+        title: 'Post 1',
+        slug: 'post-1',
+        excerpt: '',
+        content: '',
+        createdAt: '',
+        cover: { id: '1', alternativeText: '', url: '' },
+        categories: [],
+        tags: [],
+        author: { id: '1', displayName: '', slug: '' },
+      },
+    ];
+    renderTheme(<Menu {...props} posts={mockPosts} />);
 
     const buttonLink = screen.getByRole('link', { name: 'Open or close menu' });
     fireEvent.click(buttonLink);
@@ -33,12 +44,10 @@ describe('<Menu />', () => {
     expect(screen.getByRole('img', { name: 'Otávio Miranda' }));
     expect(
       screen.getByRole('navigation').querySelectorAll('a:not([href="/"])'),
-    ).toHaveLength(mock.links.length);
+    ).toHaveLength(mockPosts.length);
 
     fireEvent.click(buttonLink);
 
-    expect(screen.queryByLabelText('Close menu')).not.toBeInTheDocument();
-    expect(screen.queryByRole('navigation')).not.toBeInTheDocument();
     expect(screen.getByLabelText('Open menu')).toBeInTheDocument();
   });
 

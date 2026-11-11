@@ -7,8 +7,12 @@ exports[`<ArticleMeta /> should match snapshot 1`] = `
   font-style: italic;
 }
 
+.c0 .categories span::before {
+  content: ' ';
+}
+
 .c0 .categories span::after {
-  content: ', ';
+  content: ',';
 }
 
 .c0 .categories span:last-child::after {
@@ -41,9 +45,7 @@ exports[`<ArticleMeta /> should match snapshot 1`] = `
       >
         Otávio Miranda
       </a>
-      <span
-        class="separator"
-      >
+      <span>
          | 
       </span>
       <time
@@ -51,9 +53,7 @@ exports[`<ArticleMeta /> should match snapshot 1`] = `
       >
         2 de mar. de 2021
       </time>
-      <span
-        class="separator"
-      >
+      <span>
          | 
       </span>
       <span
@@ -86,8 +86,12 @@ exports[`<ArticleMeta /> should match snapshot with no author and categories 1`]
   font-style: italic;
 }
 
+.c0 .categories span::before {
+  content: ' ';
+}
+
 .c0 .categories span::after {
-  content: ', ';
+  content: ',';
 }
 
 .c0 .categories span:last-child::after {

@@ -13,7 +13,9 @@ const postContainerStyles = {
   `,
 };
 
-export const PostContainer = styled.div<PostContainerProps>`
+export const PostContainer = styled.div<
+  PostContainerProps & React.HTMLAttributes<HTMLDivElement>
+>`
   ${({ theme, size }) => css`
     width: 100%;
     margin: 0 auto;

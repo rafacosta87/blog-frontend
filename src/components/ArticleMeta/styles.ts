@@ -5,9 +5,12 @@ export const Wrapper = styled.div`
     font-size: ${theme.font.sizes.small};
     color: ${theme.colors.darkerGray};
     font-style: italic;
+    .categories span::before {
+      content: ' ';
+    }
 
     .categories span::after {
-      content: ', ';
+      content: ',';
     }
 
     .categories span:last-child::after {

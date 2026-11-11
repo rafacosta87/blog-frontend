@@ -22,7 +22,6 @@ export const ToggleTheme = () => {
 
   const handleChange = () => {
     setChecked((s) => !s);
-    setTheme(checked ? 'inverted' : 'default');
   };
 
   return (

@@ -1,4 +1,3 @@
-//depois perguntar referente a largura de  de SerchContainer 120 e SearchInputContainer 25, perguntar também pq border radius é passado para SeachInput ao invés de SearchContainer
 import styled, { css, keyframes } from 'styled-components';
 
 const rotate = keyframes`

@@ -1,4 +1,3 @@
-//ver questão da pagina de erro como funciona.
 import Head from 'next/head';
 import { GetStaticPaths, GetStaticProps } from 'next';
 import { useRouter } from 'next/dist/client/router';
@@ -56,7 +55,6 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
   let allPostsData = null;
   const categorySlug = ctx.params?.slug as string;
   const variables = { categorySlug };
-  console.log(ctx);
 
   try {
     data = await loadPosts(variables);

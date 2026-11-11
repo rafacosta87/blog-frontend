@@ -26,7 +26,8 @@ export const BlogThemeProvider = ({ children }: BlogThemeProviderProps) => {
   }, []);
 
   const handleSetTheme: BlogThemeContextValues['setTheme'] = useCallback(
-    (mode = 'default') => {
+    (mode) => {
+      // <-- Recebe apenas o parâmetro mode
       if (mode === 'default') {
         setBlogTheme(theme);
         localStorage.setItem('theme', JSON.stringify(theme));

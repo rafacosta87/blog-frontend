@@ -1,16 +1,18 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[
-  `<ArticleHeader /> should render heading, excerpt, cover img and meta 1`
-] = `
+exports[`<ArticleHeader /> should render heading, excerpt, cover img and meta 1`] = `
 .c5 {
   font-size: 1.6rem;
   color: #AAAAAA;
   font-style: italic;
 }
 
+.c5 .categories span::before {
+  content: ' ';
+}
+
 .c5 .categories span::after {
-  content: ', ';
+  content: ',';
 }
 
 .c5 .categories span:last-child::after {
@@ -34,7 +36,6 @@ exports[
   color: #000000;
   line-height: 1.2;
   font-size: 6.4rem;
-  text-transform: none;
 }
 
 .c0 {
@@ -79,13 +80,11 @@ exports[
     >
       Fugit aliquip erroribus eu eam, an mel vidit doctus. Vis nobis veritus maluisset id, nonumy adversarium neglegentur est ut. Tation persius pri eu, modo minim fastidii mei no. Ad tota pertinax definiebas eam.
     </p>
-    <span>
-      <img
-        alt="Vis nobis veritus maluisset id, nonumy adversarium"
-        class="c4"
-        src="https://res.cloudinary.com/dlizakp2a/image/upload/v1614698965/Ubuntu_gel_by_Midge_Mantissa_Sinnaeve_7caea7ddb4.jpg"
-      />
-    </span>
+    <img
+      alt="Vis nobis veritus maluisset id, nonumy adversarium"
+      class="c4"
+      src="https://res.cloudinary.com/dlizakp2a/image/upload/v1614698965/Ubuntu_gel_by_Midge_Mantissa_Sinnaeve_7caea7ddb4.jpg"
+    />
     <div
       class="c5"
     >
@@ -98,9 +97,7 @@ exports[
         >
           Otávio Miranda
         </a>
-        <span
-          class="separator"
-        >
+        <span>
            | 
         </span>
         <time
@@ -108,9 +105,7 @@ exports[
         >
           19 de abr. de 2020
         </time>
-        <span
-          class="separator"
-        >
+        <span>
            | 
         </span>
         <span

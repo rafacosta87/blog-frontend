@@ -21,7 +21,6 @@ export const Wrapper = styled.div<
 >`
   ${({ theme, menuVisible }) => css`
     background: ${theme.colors.primary};
-    padding: 1rem;
     display: flex;
     align-items: flex-start;
     position: fixed;
@@ -32,21 +31,19 @@ export const Wrapper = styled.div<
     top: 0;
     left: 0;
     transition: all 300ms ease-in-out;
-    overflow-y: auto;
     ${wrapperChanger(menuVisible, theme)}
   `}
 `;
 
 export const Nav = styled.nav`
   margin: 0;
+  padding: 1rem;
   padding-top: ${({ theme }) => theme.spacings.medium};
   width: 100%;
   /* MÁGICA AQUI: Transforma o menu em uma coluna de altura total */
   display: flex;
   flex-direction: column;
-  height: calc(
-    100vh - 2rem
-  ); /* Altura total descontando os paddings do Wrapper */
+  height: 100%;
 `;
 
 export const Logo = styled.div`
@@ -56,10 +53,6 @@ export const Logo = styled.div`
       justify-content: center;
       margin: 0;
       margin-bottom: ${theme.spacings.medium};
-
-      img {
-        border: 0.5rem solid ${theme.colors.secondary};
-      }
     }
   `}
 `;
@@ -114,8 +107,6 @@ export const CloseMenuLink = styled.button<
       margin-right: 1rem; /* Dá um espacinho entre a seta e a palavra "Fechar" */
     }
     &:hover {
-      color: ${theme.colors.white}; /* Mantém o texto claro */
-
       /* AJUSTADO AQUI: Agora testamos se o nome do tema NÃO é o invertido (modo claro) */
       background: ${
         theme.name !== 'inverted'

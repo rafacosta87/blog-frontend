@@ -5,14 +5,6 @@ exports[`<Header /> should match snapshot 1`] = `
   color: #000000;
   line-height: 1.2;
   font-size: 2.4rem;
-  text-transform: uppercase;
-}
-
-.c5 {
-  color: #000000;
-  line-height: 1.2;
-  font-size: 2.4rem;
-  text-transform: none;
 }
 
 .c3 {
@@ -27,6 +19,7 @@ exports[`<Header /> should match snapshot 1`] = `
   -webkit-text-decoration: none;
   text-decoration: none;
   color: inherit;
+  margin-bottom: 2.4rem;
 }
 
 .c3 > img {
@@ -41,6 +34,9 @@ exports[`<Header /> should match snapshot 1`] = `
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
   -webkit-align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
@@ -49,7 +45,7 @@ exports[`<Header /> should match snapshot 1`] = `
   -webkit-justify-content: center;
   -ms-flex-pack: center;
   justify-content: center;
-  padding-bottom: 6.4rem;
+  padding-bottom: 4.0rem;
   width: 100%;
   max-width: 96rem;
   color: #333333;
@@ -58,40 +54,23 @@ exports[`<Header /> should match snapshot 1`] = `
 }
 
 .c0 .c1 {
-  margin: 0 0 calc(1.6rem - 1rem);
+  margin: 0 0 calc(1.6rem - 1rem) 0;
 }
 
 .c4 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-flow: column wrap;
-  -ms-flex-flow: column wrap;
-  flex-flow: column wrap;
-  margin-left: 3.2rem;
+  text-align: center;
   max-width: 48rem;
 }
 
 @media (max-width:360px) {
-  .c0 {
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-flex-flow: column wrap;
-    -ms-flex-flow: column wrap;
-    flex-flow: column wrap;
-  }
-
-  .c0 > .c1 {
+  .c0 .c1 {
     margin: 0 0 2.4rem 0;
   }
 }
 
 @media (max-width:360px) {
   .c4 {
-    margin-left: 0;
+    margin-top: 1.6rem;
   }
 }
 
@@ -117,7 +96,7 @@ exports[`<Header /> should match snapshot 1`] = `
       class="c4"
     >
       <h2
-        class="c1 c5"
+        class="c1 c2"
       >
         Otávio Miranda
       </h2>

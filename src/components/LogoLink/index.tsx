@@ -20,7 +20,7 @@ export const LogoLink = ({
 
   if (nextLink) {
     return (
-      <Heading size="small" uppercase>
+      <Heading size="small">
         <Link href={link} passHref>
           <Styled.Container target={target}>
             {!!srcImg && <img src={srcImg} alt={text} />}
@@ -32,7 +32,7 @@ export const LogoLink = ({
   }
 
   return (
-    <Heading size="small" uppercase>
+    <Heading size="small">
       <Styled.Container href={link} target={target}>
         {!!srcImg && <img src={srcImg} alt={text} />}
         {!srcImg && text}
