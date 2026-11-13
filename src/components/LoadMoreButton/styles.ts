@@ -9,7 +9,7 @@ const rotate = keyframes`
   }
 `;
 
-export const ButtonContainer = styled.div`
+export const Container = styled.div`
   ${({ theme }) => css`
     padding: 0 ${theme.spacings.large};
     margin: ${theme.spacings.large} 0;

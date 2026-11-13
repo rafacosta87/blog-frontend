@@ -1,11 +1,10 @@
-import * as Styled from './styles';
 import { PostGrid } from '../../components/PostGrid';
+import { LoadMoreButton } from '../../components/LoadMoreButton';
 import { PostModel } from '../../shared-types/post';
 import { Settings } from '../../shared-types/settings';
 import { BaseTemplate } from '../Base';
 import { useEffect, useState } from 'react';
 import { loadPosts, LoadPostsVariables } from '../../api/load-posts';
-import { Autorenew } from '@styled-icons/material-outlined/Autorenew';
 
 export type PostsTemplateProps = {
   settings: Settings;
@@ -61,23 +60,11 @@ export const PostsTemplate = ({
       <PostGrid posts={statePosts} />
 
       {statePosts?.length > 0 && (
-        <Styled.ButtonContainer>
-          <Styled.Button
-            onClick={handleLoadMorePosts}
-            disabled={buttonDisabled || noMorePosts}
-          >
-            {buttonDisabled && !noMorePosts ? (
-              <>
-                <Autorenew className="loading-icon" aria-label="Carregando" />
-                Carregando posts...
-              </>
-            ) : noMorePosts ? (
-              'Sem mais posts'
-            ) : (
-              'Carregar mais'
-            )}
-          </Styled.Button>
-        </Styled.ButtonContainer>
+        <LoadMoreButton
+          onClick={handleLoadMorePosts}
+          disabled={buttonDisabled}
+          noMorePosts={noMorePosts}
+        />
       )}
     </BaseTemplate>
   );
