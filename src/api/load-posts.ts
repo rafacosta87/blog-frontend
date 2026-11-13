@@ -129,6 +129,7 @@ export const loadPosts = async (
     if (categorySlug) query.append('category', categorySlug);
     if (authorSlug) query.append('author', authorSlug);
     if (tagSlug) query.append('tag', tagSlug);
+    if (postSearch) query.append('_q', postSearch);
     if (mergedVariables.start !== undefined)
       query.append('start', String(mergedVariables.start));
     if (mergedVariables.limit !== undefined)
@@ -141,15 +142,6 @@ export const loadPosts = async (
       }
     } catch (e) {
       console.error('Error fetching posts list:', e);
-    }
-
-    if (postSearch && posts.length > 0) {
-      const searchLower = postSearch.toLowerCase();
-      posts = posts.filter(
-        (post) =>
-          post.title?.toLowerCase().includes(searchLower) ||
-          post.excerpt?.toLowerCase().includes(searchLower),
-      );
     }
   }
 
